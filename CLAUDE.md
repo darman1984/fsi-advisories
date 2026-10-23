@@ -33,7 +33,7 @@
 
 ## 지식 그래프 사이트
 
-`site/`는 위키를 그래프와 온톨로지 그림으로 보여 주는 정적 사이트예요. Vercel이 `main`에 push될 때마다 빌드 없이 `site/`를 그대로 내보내요(`vercel.json`).
+`site/`는 위키를 그래프와 온톨로지 그림으로 보여 주는 정적 사이트예요(https://fsi-advisories.vercel.app, Vercel 프로젝트 `darman/fsi-advisories`). Vercel이 `main`에 push될 때마다 빌드 없이 `site/`를 그대로 내보내요(`vercel.json`).
 
 - `site/data/advisories.json`, `products.json`, `follows.json`과 `ontology_concepts.json`의 개수는 `tools/build-site-data.ps1`이 위키(`timeline.md`, `ontology.md` 이어짐 표, `log.md`, 쪽 수)에서 만들어요. 손으로 고치지 않아요.
 - `site/data/ontology_concepts.json`의 뜻·식별자와 `ontology_relations.json`은 손으로 써요. 온톨로지의 개념이나 관계를 바꾸면 이 두 파일도 같이 고쳐요.

@@ -69,7 +69,7 @@
         "identifier":  "날짜 + 일",
         "properties":  "일, 자료, 고친 쪽",
         "where":  "log.md",
-        "count":  4
+        "count":  5
     },
     {
         "concept":  "쪽",
