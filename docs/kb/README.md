@@ -1,3 +1,7 @@
+---
+type: 목차
+---
+
 # 금보원 보안권고 지식베이스
 
 금융보안원 금융보안레그테크 카카오톡 채널로 받은 "사이버 위협정보 보안권고문" 알림을 팀이 같이 찾아볼 수 있게 정리한 문서예요. 2026-05-15부터 2026-10-23 오전까지 받은 알림 117건이 들어 있어요.
@@ -19,6 +23,7 @@
 | [timeline.md](timeline.md) — 날짜순 전체 목록 | 117건을 월별로, 최근 것부터 원문 제목 그대로 | "지난주에 무슨 권고가 왔어요?", 놓친 알림을 찾을 때 |
 | products/ — 제품 쪽 13개 | 권고가 3건 이상인 제품마다 한 쪽: [Cisco](products/cisco.md), [Linux Kernel](products/linux-kernel.md), [Citrix·NetScaler](products/citrix-netscaler.md), [Fortinet](products/fortinet.md), [Microsoft 정기 업데이트](products/microsoft-patch.md), [GitLab](products/gitlab.md), [WordPress](products/wordpress.md), [Adobe](products/adobe.md), [Apache](products/apache.md), [Ivanti](products/ivanti.md), [NGINX](products/nginx.md), [PHP](products/php.md), [Spring](products/spring.md) | 한 제품의 권고를 모아 보고, 원문에서 확인한 버전·조치를 적을 때 |
 | [notices.md](notices.md) — 주의·안내 권고와 흐름 | 패치가 아닌 주의 11건과 안내 6건, 반복·몰림 같은 흐름, 알림만으로는 알 수 없는 것 | 패치 말고 따로 조치할 것이 있는지 볼 때 |
+| [ontology.md](ontology.md) — 온톨로지 | 개념(알림, 권고문, 제품, 분야, 종류, CVE, 확인 사항)과 관계, 권고 ID, 제품 이름·분야·종류를 정하는 규칙 | 새 제목을 어느 제품·분야에 넣을지 정할 때. 쪽 속성의 뜻이 궁금할 때 |
 | [log.md](log.md) — 바뀐 기록 | kb를 만들고 고친 날과 무엇을 바꿨는지 | kb가 언제까지의 알림을 담고 있는지 볼 때 |
 
 ## 나눈 기준
