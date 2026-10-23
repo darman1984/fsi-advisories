@@ -1,10 +1,14 @@
-﻿# 위키(docs/kb/)를 읽어 지식 그래프 사이트의 데이터(site/data/*.json)를 다시 만들어요.
+﻿# 위키(docs/kb/)를 읽어 지식 그래프 사이트의 데이터를 다시 만들어요.
+# - private-data/*.json: 비밀번호를 확인한 api/data.js만 내주는 자료(그래프, 온톨로지)
+# - site/data/summary.json: 누구나 보는 종합 숫자
 # 넣기나 온톨로지를 고친 뒤에 돌려요. Windows PowerShell 5.1 기본 기능만 써요.
 #   powershell -NoProfile -ExecutionPolicy Bypass -File tools\build-site-data.ps1
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $kb = Join-Path $root 'docs\kb'
-$out = Join-Path $root 'site\data'
+$out = Join-Path $root 'private-data'
+$publicOut = Join-Path $root 'site\data'
+New-Item -ItemType Directory -Force $publicOut | Out-Null
 $utf8 = New-Object Text.UTF8Encoding $false
 $read = { param($p) [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) }
 $write = { param($name, $obj) [IO.File]::WriteAllText((Join-Path $out $name), (ConvertTo-Json @($obj) -Depth 4), $utf8) }
@@ -73,4 +77,14 @@ foreach ($c in $concepts) { if ($count.ContainsKey($c.concept)) { $c.count = $co
 & $write 'products.json' $prods
 & $write 'follows.json' $follows
 & $write 'ontology_concepts.json' $concepts
+
+# 공개 종합 숫자: 권고 하나하나나 제품 목록은 넣지 않아요
+$top = @($prods | Sort-Object @{ e = { $_.advisories }; Descending = $true }, @{ e = { $_.product } })[0]
+$dates = @($adv | ForEach-Object { $_.date } | Sort-Object)
+$summary = [ordered]@{
+  advisories = $adv.Count; products = @($prods).Count; categories = $count['분야']
+  product_pages = @($prods | Where-Object { $_.has_page }).Count; follows = $follows.Count
+  top_product = $top.product; top_advisories = $top.advisories; first = $dates[0]; last = $dates[-1]
+}
+[IO.File]::WriteAllText((Join-Path $publicOut 'summary.json'), (ConvertTo-Json $summary), $utf8)
 "권고 $($adv.Count), 제품 $(@($prods).Count), 이어진 쌍 $($follows.Count), 개념 개수: " + (($concepts | ForEach-Object { "$($_.concept) $($_.count)" }) -join ', ')

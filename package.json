@@ -1,0 +1,9 @@
+{
+  "name": "fsi-advisories",
+  "private": true,
+  "description": "금보원 보안권고 알림 위키와 지식 그래프 사이트",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  }
+}

@@ -35,9 +35,12 @@
 
 `site/`는 위키를 그래프와 온톨로지 그림으로 보여 주는 정적 사이트예요(https://fsi-advisories.vercel.app, Vercel 프로젝트 `darman/fsi-advisories`). Vercel이 `main`에 push될 때마다 빌드 없이 `site/`를 그대로 내보내요(`vercel.json`).
 
-- `site/data/advisories.json`, `products.json`, `follows.json`과 `ontology_concepts.json`의 개수는 `tools/build-site-data.ps1`이 위키(`timeline.md`, `ontology.md` 이어짐 표, `log.md`, 쪽 수)에서 만들어요. 손으로 고치지 않아요.
-- `site/data/ontology_concepts.json`의 뜻·식별자와 `ontology_relations.json`은 손으로 써요. 온톨로지의 개념이나 관계를 바꾸면 이 두 파일도 같이 고쳐요.
-- 로컬에서 보려면 `site/`를 아무 정적 서버로 열어요(파일을 바로 열면 데이터를 못 읽어요).
+- **비밀번호**: 맨 위 종합 숫자(`site/data/summary.json`)는 누구나 봐요. 지식 그래프와 온톨로지 데이터는 `private-data/`에 두고, `api/data.js`(Vercel 함수, Node 22, 패키지 없음)가 비밀번호를 확인한 뒤에만 내줘요. 비밀번호는 Vercel 환경 변수 `SITE_PASSWORD`에만 두고 저장소에 적지 않아요. 비밀번호를 바꾸면 Vercel에서 다시 배포해야 반영돼요.
+- `private-data/advisories.json`, `products.json`, `follows.json`, `ontology_concepts.json`의 개수, `site/data/summary.json`은 `tools/build-site-data.ps1`이 위키(`timeline.md`, `ontology.md` 이어짐 표, `log.md`, 쪽 수)에서 만들어요. 손으로 고치지 않아요.
+- `private-data/ontology_concepts.json`의 뜻·식별자와 `ontology_relations.json`은 손으로 써요. 온톨로지의 개념이나 관계를 바꾸면 이 두 파일도 같이 고쳐요.
+- `summary.json`에는 숫자와 가장 많이 나온 제품 하나만 넣어요. 권고 목록이나 제품 목록을 `site/`에 두면 비밀번호 없이 보여요.
+- 저장소는 공개예요. 사이트의 비밀번호는 사이트에만 걸리고, GitHub에서는 위키와 `private-data/`가 그대로 보여요.
+- 로컬에서 보려면 저장소 폴더를 정적 서버로 열고 `/site/`로 가요. `api/data.js`는 로컬에서 돌지 않아서 종합 숫자와 잠금 화면까지만 보여요.
 
 ## 넣기
 

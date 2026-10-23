@@ -45,18 +45,17 @@ span.dash-skeleton { color: transparent; background: var(--cds-chart-grid); bord
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script>
-// Claude 대시보드의 dash 기능 가운데 이 페이지가 쓰는 것만 흉내 내요. 데이터는 data/*.json에서 읽어요.
+// Claude 대시보드의 dash 기능 가운데 이 페이지가 쓰는 것만 흉내 내요.
+// 종합 숫자(data/summary.json)는 누구나 읽고, 나머지는 비밀번호를 확인한 /api/data가 내줘요.
 window.dash = (() => {
-  const SRC = {
-    advisories: 'data/advisories.json', products: 'data/products.json', follows: 'data/follows.json',
-    ontology_concepts: 'data/ontology_concepts.json', ontology_relations: 'data/ontology_relations.json',
-  };
+  const PUBLIC = { summary: 'data/summary.json' };
+  const LOCKED = ['advisories', 'products', 'follows', 'ontology_concepts', 'ontology_relations'];
   const store = {}, calcs = {}, subs = [];
   const notify = () => subs.forEach((fn) => { try { fn(); } catch (e) { console.error(e); } });
   const load = (id) => {
     store[id] = { status: 'loading', data: [] };
-    fetch(SRC[id], { cache: 'no-cache' })
-      .then((r) => { if (!r.ok) throw new Error(r.status + ' ' + SRC[id]); return r.json(); })
+    fetch(PUBLIC[id], { cache: 'no-cache' })
+      .then((r) => { if (!r.ok) throw new Error(r.status + ' ' + PUBLIC[id]); return r.json(); })
       .then((d) => { store[id] = { status: 'ok', data: d }; notify(); })
       .catch((e) => { store[id] = { status: 'error', data: [], message: String(e) }; notify(); });
   };
@@ -68,15 +67,31 @@ window.dash = (() => {
       try { return { status: 'ok', data: calcs[id].fn(...ins.map((x) => x.data)) }; }
       catch (e) { console.error(e); return { status: 'error', data: [], message: String(e) }; }
     }
-    if (!SRC[id]) return { status: 'missing', data: [] };
+    if (LOCKED.includes(id)) return store[id] || { status: 'locked', data: [] };
+    if (!PUBLIC[id]) return { status: 'missing', data: [] };
     if (!store[id]) load(id);
     return store[id];
   };
-  Object.keys(SRC).forEach(load);
+  Object.keys(PUBLIC).forEach(load);
+  // 비밀번호로 잠긴 데이터를 받아요. 성공하면 true, 아니면 서버가 준 오류 문장을 던져요.
+  const unlock = async (password) => {
+    const r = await fetch('/api/data', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, cache: 'no-store',
+      body: JSON.stringify({ password }),
+    });
+    let body = null;
+    try { body = await r.json(); } catch (e) { /* 아래에서 알려요 */ }
+    if (!r.ok) throw new Error((body && body.error) || `데이터를 받지 못했어요 (${r.status})`);
+    LOCKED.forEach((id) => { store[id] = { status: 'ok', data: body[id] || [] }; });
+    notify();
+    return true;
+  };
+  const lock = () => { LOCKED.forEach((id) => { delete store[id]; }); notify(); };
+  const unlocked = () => LOCKED.every((id) => store[id] && store[id].status === 'ok');
   let t = null;
   addEventListener('resize', () => { clearTimeout(t); t = setTimeout(notify, 150); });
   return {
-    data,
+    data, unlock, lock, unlocked,
     calc: (id, spec) => { calcs[id] = spec; },
     onData: (fn) => { subs.push(fn); fn(); },
     colors: ['--c1', '--c2', '--c3', '--c4', '--c5', '--c6', '--c7', '--c8'].map((v) => `var(${v})`),
@@ -101,7 +116,17 @@ window.dash = (() => {
 .kg-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
 .kg-tab:focus-visible, .kg-chip:focus-visible, .kg-search:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
 .kg-page { display: grid; gap: var(--cds-gap-md); }
-.kg-page[hidden] { display: none; }
+.kg-page[hidden], .kg-private[hidden], .kg-lock[hidden] { display: none; }
+.kg-private { display: grid; gap: var(--cds-gap-lg); }
+.kg-lock { max-width: 34rem; }
+.kg-lock-form { display: grid; gap: var(--cds-gap-xs); }
+.kg-lock-row { display: flex; gap: var(--cds-gap-sm); flex-wrap: wrap; }
+.kg-lock-row .kg-search { font-size: var(--cds-font-size-body); padding: var(--cds-pad-sm); }
+.kg-btn { font: inherit; font-weight: var(--cds-font-weight-medium); border: 1px solid var(--color-fg); background: var(--color-fg); color: var(--color-bg); border-radius: var(--cds-radius); padding: var(--cds-pad-sm) var(--cds-pad-lg); cursor: pointer; }
+.kg-btn:disabled { opacity: .6; cursor: progress; }
+.kg-btn:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.kg-lock-msg { margin: 0; min-height: 1.3em; font-size: var(--cds-font-size-caption); color: var(--color-bad); }
+.kg-relock { margin-left: auto; align-self: center; }
 .kg-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); min-width: 0; align-content: start; }
 .kg-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
 .kg-note { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin: 0; }
@@ -160,19 +185,34 @@ window.dash = (() => {
 <div class="kg">
   <header class="kg-head" id="top">
     <h1>보안권고 지식 그래프</h1>
-    <p class="kg-take">금보원 보안권고 알림 <span data-source="summary" data-field="advisories" data-row="0">—</span>건이 제품 <span data-source="summary" data-field="products" data-row="0">—</span>개, 분야 <span data-source="summary" data-field="categories" data-row="0">—</span>개로 이어져 있어요. 가장 많이 나온 제품은 <span data-source="top_product" data-field="product" data-row="0">—</span>(<span data-source="top_product" data-field="advisories" data-row="0">—</span>건)이에요.</p>
+    <p class="kg-take">금보원 보안권고 알림 <span data-source="summary" data-field="advisories" data-row="0">—</span>건이 제품 <span data-source="summary" data-field="products" data-row="0">—</span>개, 분야 <span data-source="summary" data-field="categories" data-row="0">—</span>개로 이어져 있어요. 가장 많이 나온 제품은 <span data-source="summary" data-field="top_product" data-row="0">—</span>(<span data-source="summary" data-field="top_advisories" data-row="0">—</span>건)이에요.</p>
   </header>
 
   <section class="kg-stats" aria-label="요약">
-    <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="advisories" data-row="0">—</span><span class="kg-lab">보안권고 알림 (2026-05-15 ~ 10-23)</span></div>
+    <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="advisories" data-row="0">—</span><span class="kg-lab">보안권고 알림 (<span data-source="summary" data-field="first" data-row="0">—</span> ~ <span data-source="summary" data-field="last" data-row="0">—</span>)</span></div>
     <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="products" data-row="0">—</span><span class="kg-lab">제품·주제</span></div>
     <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="product_pages" data-row="0">—</span><span class="kg-lab">위키 제품 쪽 (3건 이상)</span></div>
     <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="follows" data-row="0">—</span><span class="kg-lab">이어진 권고 쌍</span></div>
   </section>
 
+  <section class="kg-card kg-lock" id="kg-lock" aria-labelledby="lock-h">
+    <h2 id="lock-h">지식 그래프와 온톨로지는 비밀번호를 넣어야 열려요</h2>
+    <p class="kg-note">위의 종합 숫자는 누구나 봐요. 권고 하나하나, 제품·분야 연결, 온톨로지 그림과 표는 비밀번호를 확인한 뒤에 받아 와요.</p>
+    <form class="kg-lock-form" id="kg-lock-form" autocomplete="on">
+      <label class="kg-note" for="kg-pw">비밀번호</label>
+      <div class="kg-lock-row">
+        <input class="kg-search" id="kg-pw" name="password" type="password" autocomplete="current-password" required>
+        <button class="kg-btn" id="kg-open" type="submit">열기</button>
+      </div>
+      <p class="kg-lock-msg" id="kg-lock-msg" role="alert"></p>
+    </form>
+  </section>
+
+  <div class="kg-private" id="kg-private" hidden>
   <nav class="kg-tabs" role="tablist" aria-label="보기">
     <button class="kg-tab" role="tab" id="tab-graph" aria-controls="graph" aria-selected="true">지식 그래프</button>
     <button class="kg-tab" role="tab" id="tab-ontology" aria-controls="ontology" aria-selected="false">온톨로지</button>
+    <button class="kg-chip kg-relock" id="kg-relock" type="button">잠그기</button>
   </nav>
 
   <section class="kg-page" id="graph" role="tabpanel" aria-labelledby="tab-graph">
@@ -237,30 +277,10 @@ window.dash = (() => {
       </div>
     </div>
   </section>
+  </div>
 </div>
 
 <script>
-dash.calc('summary', {
-  inputs: ['advisories', 'products', 'follows'],
-  title: '요약 숫자',
-  description: '권고, 제품, 분야, 제품 쪽, 이어진 권고 쌍을 센 것',
-  fn: (advisories, products, follows) => [{
-    advisories: advisories.length,
-    products: products.length,
-    categories: new Set(products.map((p) => p.category)).size,
-    product_pages: products.filter((p) => p.has_page === true).length,
-    follows: follows.length,
-  }],
-});
-dash.calc('top_product', {
-  inputs: ['products'],
-  title: '가장 많이 나온 제품',
-  description: '권고 수가 가장 많은 제품. 같으면 이름순',
-  fn: (products) => [...products]
-    .sort((a, b) => b.advisories - a.advisories || a.product.localeCompare(b.product))
-    .slice(0, 1)
-    .map((p) => ({ product: p.product, advisories: p.advisories })),
-});
 dash.calc('by_category', {
   inputs: ['advisories'],
   title: '분야별 권고 수',
@@ -612,6 +632,7 @@ dash.calc('follow_pairs', {
   }
 
   function draw() {
+    if (!dash.unlocked() || $('#kg-private').hidden) return;
     if (state.tab === 'graph') drawGraph();
     else {
       drawSchema();
@@ -622,17 +643,50 @@ dash.calc('follow_pairs', {
   }
 
   dash.onData(() => {
-    document.querySelectorAll('.kg-num').forEach((n) => { if (dash.data('summary').status !== 'loading') n.classList.remove('dash-skeleton'); });
-    const s = dash.data('summary'), t = dash.data('top_product');
-    const put = (selector, ds, field) => document.querySelectorAll(selector).forEach((n) => { n.textContent = ds.status === 'ok' && ds.data[0] ? d3.format(',')(ds.data[0][field]) : '—'; });
-    ['advisories', 'products', 'categories', 'product_pages', 'follows'].forEach((f) => put(`[data-source="summary"][data-field="${f}"]`, s, f));
-    document.querySelectorAll('[data-source="top_product"][data-field="product"]').forEach((n) => { n.textContent = t.status === 'ok' && t.data[0] ? t.data[0].product : '—'; });
-    put('[data-source="top_product"][data-field="advisories"]', t, 'advisories');
+    const s = dash.data('summary');
+    document.querySelectorAll('.kg-num').forEach((n) => { if (s.status !== 'loading') n.classList.remove('dash-skeleton'); });
+    document.querySelectorAll('[data-source="summary"][data-field]').forEach((n) => {
+      const v = s.status === 'ok' ? s.data[n.dataset.field] : null;
+      n.textContent = v == null ? '—' : typeof v === 'number' ? d3.format(',')(v) : String(v);
+    });
     draw();
   });
 
+  // 비밀번호
+  const lockCard = $('#kg-lock'), priv = $('#kg-private'), form = $('#kg-lock-form');
+  const pw = $('#kg-pw'), msg = $('#kg-lock-msg'), openBtn = $('#kg-open');
   const named = location.hash.slice(1);
-  if (named === 'ontology') show('ontology');
+  const setOpen = (open) => { lockCard.hidden = open; priv.hidden = !open; };
+  const tryUnlock = async (password, quiet) => {
+    openBtn.disabled = true;
+    msg.textContent = quiet ? '' : '확인하고 있어요…';
+    try {
+      await dash.unlock(password);
+      try { sessionStorage.setItem('kg-pw', password); } catch (e) { /* 저장 못 해도 지금은 열려요 */ }
+      msg.textContent = '';
+      pw.value = '';
+      setOpen(true);
+      show(named === 'ontology' ? 'ontology' : state.tab);
+    } catch (e) {
+      try { sessionStorage.removeItem('kg-pw'); } catch (_) { /* 무시 */ }
+      msg.textContent = quiet ? '' : e.message;
+      setOpen(false);
+      if (!quiet) { pw.select(); }
+    } finally {
+      openBtn.disabled = false;
+    }
+  };
+  form.addEventListener('submit', (e) => { e.preventDefault(); if (pw.value) tryUnlock(pw.value, false); });
+  $('#kg-relock').addEventListener('click', () => {
+    try { sessionStorage.removeItem('kg-pw'); } catch (e) { /* 무시 */ }
+    state.sel = null;
+    dash.lock();
+    setOpen(false);
+    pw.focus();
+  });
+  let saved = null;
+  try { saved = sessionStorage.getItem('kg-pw'); } catch (e) { /* 무시 */ }
+  if (saved) tryUnlock(saved, true);
 })();
 </script>
 
@@ -643,8 +697,8 @@ dash.calc('follow_pairs', {
 </div>
 <script>
 dash.onData(() => {
-  const a = dash.data('advisories');
-  if (a.status === 'ok' && a.data.length) document.getElementById('site-asof').textContent = a.data.reduce((m, r) => r.date > m ? r.date : m, '');
+  const s = dash.data('summary');
+  if (s.status === 'ok' && s.data.last) document.getElementById('site-asof').textContent = s.data.last;
 });
 </script>
 </body>

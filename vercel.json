@@ -4,6 +4,9 @@
   "buildCommand": "",
   "outputDirectory": "site",
   "cleanUrls": true,
+  "functions": {
+    "api/data.js": { "includeFiles": "private-data/**" }
+  },
   "headers": [
     {
       "source": "/(.*)",
