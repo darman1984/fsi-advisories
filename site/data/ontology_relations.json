@@ -1,0 +1,11 @@
+[
+  {"relation": "담는다", "from": "원본 파일", "to": "알림", "cardinality": "하나가 여럿", "always": true, "example": "kakaotalk-2026-10-23.txt가 117건"},
+  {"relation": "알린다", "from": "알림", "to": "권고문", "cardinality": "하나가 하나", "always": true, "example": ":991 → A-20261023-0943"},
+  {"relation": "대상", "from": "권고문", "to": "제품", "cardinality": "여럿이 하나", "always": true, "example": "A-20261023-0943 → Fortinet"},
+  {"relation": "속한다", "from": "제품", "to": "분야", "cardinality": "여럿이 하나", "always": true, "example": "Fortinet → 네트워크·보안장비"},
+  {"relation": "종류", "from": "권고문", "to": "종류", "cardinality": "여럿이 하나", "always": true, "example": "A-20260727-1921 → 주의"},
+  {"relation": "언급", "from": "권고문", "to": "CVE", "cardinality": "하나가 0개 이상", "always": false, "example": "A-20260826-1710 → CVE-2026-21962"},
+  {"relation": "이어짐", "from": "권고문", "to": "권고문", "cardinality": "하나가 0개 이상", "always": false, "example": "A-20260727-1921 → A-20260730-0922"},
+  {"relation": "밝힌다", "from": "확인 사항", "to": "권고문", "cardinality": "여럿이 하나", "always": true, "example": "아직 없어요"},
+  {"relation": "고쳤다", "from": "기록", "to": "쪽", "cardinality": "하나가 여럿", "always": true, "example": "2026-10-23 만듦 → 쪽 다섯"}
+]

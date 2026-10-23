@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>보안권고 지식 그래프</title>
+<meta name="description" content="금보원 금융보안레그테크 카카오톡 채널로 받은 보안권고 알림을 권고, 제품, 분야로 이은 지식 그래프와 위키 온톨로지">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@400&display=swap">
+<style>
+/* 대시보드 화면이 쓰던 색·글꼴·간격 이름을 이 페이지에서 정의해요 */
+:root {
+  color-scheme: light;
+  --color-bg: #f6f7f5; --color-panel: #ffffff; --color-fg: #1d2421; --color-fg-muted: #5f6b66;
+  --color-border-line: #dfe4e1; --color-ok: #2f7a4f; --color-warn: #b25c0c; --color-bad: #b42318;
+  --c1: #2a6f97; --c2: #c05621; --c3: #2f855a; --c4: #805ad5; --c5: #b83280; --c6: #8a6d00; --c7: #4a5568; --c8: #00838f;
+  --cds-chart-grid: #e3e8e5; --cds-surface-popover: #ffffff; --cds-border: #d4dad7; --cds-text-secondary: #5f6b66;
+  --cds-shadow-popover: 0 4px 16px rgba(20, 30, 25, .12);
+  --font-anthropic-sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-anthropic-serif: "Noto Serif KR", "AppleMyungjo", "Batang", serif;
+  --cds-font-size-caption: .8125rem; --cds-font-size-body: .9375rem; --cds-font-size-heading: 1.0625rem; --cds-font-size-title: 1.75rem;
+  --cds-font-weight-medium: 600;
+  --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 14px; --cds-gap-lg: 22px; --cds-gap-xl: 32px;
+  --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-md: 14px; --cds-pad-lg: 18px; --cds-pad-xl: 28px;
+  --cds-radius: 10px; --cds-dur-slow: .3s;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg: #121614; --color-panel: #1a201d; --color-fg: #e3eae6; --color-fg-muted: #98a59f;
+    --color-border-line: #2c3531; --color-ok: #6fcf97; --color-warn: #f2a65a; --color-bad: #f47c6b;
+    --c1: #6cb4dc; --c2: #f0925a; --c3: #68c48e; --c4: #b39cf0; --c5: #ec7fbd; --c6: #d9b941; --c7: #a0aec0; --c8: #4dd0e1;
+    --cds-chart-grid: #2a332f; --cds-surface-popover: #222a26; --cds-border: #36413c; --cds-text-secondary: #98a59f;
+    --cds-shadow-popover: 0 4px 16px rgba(0, 0, 0, .45);
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-body); line-height: 1.55; }
+#dash-root { max-width: 1240px; margin: 0 auto; padding: 28px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
+.dash-skeleton:empty { min-height: 1.2em; background: var(--cds-chart-grid); border-radius: 6px; }
+span.dash-skeleton { color: transparent; background: var(--cds-chart-grid); border-radius: 6px; }
+.site-foot { margin-top: var(--cds-gap-xl); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); display: grid; gap: 4px; }
+.site-foot a { color: inherit; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+// Claude 대시보드의 dash 기능 가운데 이 페이지가 쓰는 것만 흉내 내요. 데이터는 data/*.json에서 읽어요.
+window.dash = (() => {
+  const SRC = {
+    advisories: 'data/advisories.json', products: 'data/products.json', follows: 'data/follows.json',
+    ontology_concepts: 'data/ontology_concepts.json', ontology_relations: 'data/ontology_relations.json',
+  };
+  const store = {}, calcs = {}, subs = [];
+  const notify = () => subs.forEach((fn) => { try { fn(); } catch (e) { console.error(e); } });
+  const load = (id) => {
+    store[id] = { status: 'loading', data: [] };
+    fetch(SRC[id], { cache: 'no-cache' })
+      .then((r) => { if (!r.ok) throw new Error(r.status + ' ' + SRC[id]); return r.json(); })
+      .then((d) => { store[id] = { status: 'ok', data: d }; notify(); })
+      .catch((e) => { store[id] = { status: 'error', data: [], message: String(e) }; notify(); });
+  };
+  const data = (id) => {
+    if (calcs[id]) {
+      const ins = calcs[id].inputs.map(data);
+      if (ins.some((x) => x.status === 'error')) return { status: 'error', data: [] };
+      if (ins.some((x) => x.status !== 'ok')) return { status: 'loading', data: [] };
+      try { return { status: 'ok', data: calcs[id].fn(...ins.map((x) => x.data)) }; }
+      catch (e) { console.error(e); return { status: 'error', data: [], message: String(e) }; }
+    }
+    if (!SRC[id]) return { status: 'missing', data: [] };
+    if (!store[id]) load(id);
+    return store[id];
+  };
+  Object.keys(SRC).forEach(load);
+  let t = null;
+  addEventListener('resize', () => { clearTimeout(t); t = setTimeout(notify, 150); });
+  return {
+    data,
+    calc: (id, spec) => { calcs[id] = spec; },
+    onData: (fn) => { subs.push(fn); fn(); },
+    colors: ['--c1', '--c2', '--c3', '--c4', '--c5', '--c6', '--c7', '--c8'].map((v) => `var(${v})`),
+    setLink: (name) => { try { history.replaceState(null, '', '#' + name); } catch (e) { /* 무시 */ } },
+    params: () => ({}),
+  };
+})();
+</script>
+</head>
+<body>
+<div id="dash-root">
+<style>
+.kg { display: grid; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); }
+.kg-head h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.kg-take { color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 0; max-width: 70ch; }
+.kg-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: var(--cds-gap-md); }
+.kg-stat { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: grid; gap: var(--cds-gap-xs); }
+.kg-num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
+.kg-stat .kg-lab { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.kg-tabs { display: flex; gap: var(--cds-gap-xs); border-bottom: 1px solid var(--color-border-line); flex-wrap: wrap; }
+.kg-tab { font: inherit; background: none; border: 0; border-bottom: 2px solid transparent; padding: var(--cds-pad-sm) var(--cds-pad-md); color: var(--color-fg-muted); cursor: pointer; margin-bottom: -1px; }
+.kg-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.kg-tab:focus-visible, .kg-chip:focus-visible, .kg-search:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.kg-page { display: grid; gap: var(--cds-gap-md); }
+.kg-page[hidden] { display: none; }
+.kg-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); min-width: 0; align-content: start; }
+.kg-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.kg-note { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin: 0; }
+.kg-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(min(100%, 17rem), 21rem); gap: var(--cds-gap-md); }
+@media (max-width: 820px) { .kg-split { grid-template-columns: minmax(0, 1fr); } }
+.kg-tools { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); align-items: center; }
+.kg-search { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); flex: 1 1 12rem; min-width: 0; }
+.kg-chip { font: inherit; font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); background: var(--color-bg); color: var(--color-fg); border-radius: 999px; padding: 2px var(--cds-pad-sm); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.kg-chip[aria-pressed="true"] { border-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.kg-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.kg-svgbox { position: relative; min-height: 460px; }
+.kg-svgbox svg { display: block; cursor: grab; touch-action: none; }
+.kg-svgbox svg:active { cursor: grabbing; }
+.kg-node { cursor: pointer; }
+.kg-label { font-size: 11px; fill: var(--color-fg); paint-order: stroke; stroke: var(--color-panel); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.kg-label.cat { font-size: 13px; font-weight: 600; }
+.kg-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); max-width: 16rem; z-index: 2; }
+.kg-tip .k { color: var(--cds-text-secondary); display: block; }
+.kg-detail { display: grid; gap: var(--cds-gap-sm); }
+.kg-detail h3 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); overflow-wrap: anywhere; }
+.kg-kv { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--cds-gap-sm); font-size: var(--cds-font-size-caption); margin: 0; }
+.kg-kv dt { color: var(--color-fg-muted); }
+.kg-kv dd { margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.kg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; max-height: 22rem; overflow: auto; }
+.kg-list li { display: grid; grid-template-columns: auto 1fr auto; gap: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); padding: 4px 0; border-top: 1px solid var(--color-border-line); align-items: baseline; }
+.kg-list button { font: inherit; background: none; border: 0; padding: 0; color: var(--color-fg); text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+.kg-list button:hover { text-decoration: underline; }
+.kg-when { color: var(--color-fg-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kg-kind { font-size: 11px; border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; white-space: nowrap; }
+.kg-kind.patch { color: var(--color-fg-muted); }
+.kg-kind.warn { color: var(--color-warn); }
+.kg-kind.info { color: var(--color-fg); }
+.kg-legend { display: grid; gap: 4px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.kg-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.kg-bars { display: grid; gap: 6px; }
+.kg-bar { display: grid; grid-template-columns: minmax(6rem, 9rem) 1fr 2.5rem; gap: var(--cds-gap-sm); align-items: center; font-size: var(--cds-font-size-caption); background: none; border: 0; padding: 0; color: var(--color-fg); font-family: inherit; cursor: pointer; text-align: left; }
+.kg-bar .track { height: 12px; border-radius: 6px; background: var(--cds-chart-grid); overflow: hidden; }
+.kg-bar .fill { height: 100%; border-radius: 6px; }
+.kg-bar .n { text-align: right; font-variant-numeric: tabular-nums; }
+.kg-bar[aria-pressed="true"] { font-weight: var(--cds-font-weight-medium); }
+.kg-schema { position: relative; min-height: 420px; }
+.kg-schema text { font-family: var(--font-anthropic-sans); }
+.kg-tablebox { overflow: auto; max-height: 28rem; }
+.kg-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); }
+.kg-table th { text-align: left; position: sticky; top: 0; background: var(--color-panel); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); }
+.kg-table td { padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); vertical-align: top; overflow-wrap: anywhere; }
+.kg-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kg-table th { white-space: nowrap; }
+.kg-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--cds-gap-md); }
+.kg-fail { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 8rem; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.kg-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+
+<div class="kg">
+  <header class="kg-head" id="top">
+    <h1>보안권고 지식 그래프</h1>
+    <p class="kg-take">금보원 보안권고 알림 <span data-source="summary" data-field="advisories" data-row="0">—</span>건이 제품 <span data-source="summary" data-field="products" data-row="0">—</span>개, 분야 <span data-source="summary" data-field="categories" data-row="0">—</span>개로 이어져 있어요. 가장 많이 나온 제품은 <span data-source="top_product" data-field="product" data-row="0">—</span>(<span data-source="top_product" data-field="advisories" data-row="0">—</span>건)이에요.</p>
+  </header>
+
+  <section class="kg-stats" aria-label="요약">
+    <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="advisories" data-row="0">—</span><span class="kg-lab">보안권고 알림 (2026-05-15 ~ 10-23)</span></div>
+    <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="products" data-row="0">—</span><span class="kg-lab">제품·주제</span></div>
+    <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="product_pages" data-row="0">—</span><span class="kg-lab">위키 제품 쪽 (3건 이상)</span></div>
+    <div class="kg-stat"><span class="kg-num dash-skeleton" data-source="summary" data-field="follows" data-row="0">—</span><span class="kg-lab">이어진 권고 쌍</span></div>
+  </section>
+
+  <nav class="kg-tabs" role="tablist" aria-label="보기">
+    <button class="kg-tab" role="tab" id="tab-graph" aria-controls="graph" aria-selected="true">지식 그래프</button>
+    <button class="kg-tab" role="tab" id="tab-ontology" aria-controls="ontology" aria-selected="false">온톨로지</button>
+  </nav>
+
+  <section class="kg-page" id="graph" role="tabpanel" aria-labelledby="tab-graph">
+    <div class="kg-split">
+      <div class="kg-card" id="graph-card">
+        <h2>권고 · 제품 · 분야</h2>
+        <p class="kg-note">작은 점이 권고 하나, 중간 원이 제품, 큰 원이 분야예요. 점을 누르면 이어진 것만 밝아지고 오른쪽에 자세한 내용이 나와요. 끌어서 옮기고 휠이나 두 손가락으로 확대해요.</p>
+        <div class="kg-tools">
+          <input class="kg-search" id="kg-q" type="search" placeholder="제품이나 제목으로 찾기" aria-label="제품이나 제목으로 찾기">
+          <button class="kg-chip" id="kg-toggle-adv" aria-pressed="true">권고 점 보이기</button>
+          <button class="kg-chip" id="kg-fit">전체 보기</button>
+        </div>
+        <div class="kg-svgbox dash-skeleton" id="kg-graph" data-source="advisories products follows"></div>
+      </div>
+      <aside class="kg-card" id="detail-card" aria-live="polite">
+        <div class="kg-detail" id="kg-detail" data-source="advisories products follows"></div>
+      </aside>
+    </div>
+    <div class="kg-card" id="cat-card">
+      <h2>분야별 권고 수</h2>
+      <p class="kg-note">막대를 누르면 그래프에서 그 분야만 밝아져요. 한 번 더 누르면 풀려요.</p>
+      <div class="kg-bars dash-skeleton" id="kg-bars" data-source="by_category"></div>
+    </div>
+  </section>
+
+  <section class="kg-page" id="ontology" role="tabpanel" aria-labelledby="tab-ontology" hidden>
+    <div class="kg-card" id="schema-card">
+      <h2>온톨로지: 개념과 관계</h2>
+      <p class="kg-note">상자는 개념이고 숫자는 지금 위키에 있는 개수예요. 화살표는 관계이고, 점선은 있을 수도 없을 수도 있는 관계예요. 위키의 docs/kb/ontology.md와 같은 내용이에요.</p>
+      <div class="kg-schema dash-skeleton" id="kg-schema" data-source="ontology_concepts ontology_relations"></div>
+    </div>
+    <div class="kg-grid2">
+      <div class="kg-card" id="concepts-card">
+        <h2>개념</h2>
+        <p class="kg-note">개념마다 무엇으로 알아보고(식별자) 어디에 적는지예요.</p>
+        <div class="kg-tablebox">
+          <table class="kg-table" id="kg-concepts" data-source="ontology_concepts" data-row-key="concept">
+            <thead><tr><th data-field="concept">개념</th><th data-field="meaning">뜻</th><th data-field="identifier">식별자</th><th data-field="where">어디에</th><th data-field="count">개수</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="kg-card" id="relations-card">
+        <h2>관계</h2>
+        <p class="kg-note">앞 개념에서 뒤 개념으로 가는 관계와 개수 규칙이에요.</p>
+        <div class="kg-tablebox">
+          <table class="kg-table" id="kg-relations" data-source="ontology_relations" data-row-key="relation">
+            <thead><tr><th data-field="relation">관계</th><th data-field="from">앞</th><th data-field="to">뒤</th><th data-field="cardinality">개수</th><th data-field="example">예</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="kg-card" id="follows-card">
+      <h2>이어진 권고</h2>
+      <p class="kg-note">같은 제품에서 앞 권고의 후속으로 보이는 권고예요. 제목과 시각만 보고 정했어요. 그래프에서는 점선으로 이어져 있어요.</p>
+      <div class="kg-tablebox">
+        <table class="kg-table" id="kg-follows" data-source="follow_pairs" data-row-key="from_id">
+          <thead><tr><th data-field="from_id">앞 권고</th><th data-field="from_title">앞 제목</th><th data-field="to_id">뒤 권고</th><th data-field="to_title">뒤 제목</th><th data-field="reason">근거</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+dash.calc('summary', {
+  inputs: ['advisories', 'products', 'follows'],
+  title: '요약 숫자',
+  description: '권고, 제품, 분야, 제품 쪽, 이어진 권고 쌍을 센 것',
+  fn: (advisories, products, follows) => [{
+    advisories: advisories.length,
+    products: products.length,
+    categories: new Set(products.map((p) => p.category)).size,
+    product_pages: products.filter((p) => p.has_page === true).length,
+    follows: follows.length,
+  }],
+});
+dash.calc('top_product', {
+  inputs: ['products'],
+  title: '가장 많이 나온 제품',
+  description: '권고 수가 가장 많은 제품. 같으면 이름순',
+  fn: (products) => [...products]
+    .sort((a, b) => b.advisories - a.advisories || a.product.localeCompare(b.product))
+    .slice(0, 1)
+    .map((p) => ({ product: p.product, advisories: p.advisories })),
+});
+dash.calc('by_category', {
+  inputs: ['advisories'],
+  title: '분야별 권고 수',
+  description: '권고를 분야별로 센 것, 많은 순',
+  fn: (advisories) => {
+    const n = {};
+    advisories.forEach((a) => { n[a.category] = (n[a.category] || 0) + 1; });
+    return Object.keys(n).map((category) => ({ category, count: n[category] }))
+      .sort((a, b) => b.count - a.count || a.category.localeCompare(b.category));
+  },
+});
+dash.calc('follow_pairs', {
+  inputs: ['follows', 'advisories'],
+  title: '이어진 권고와 제목',
+  description: '이어진 권고 쌍에 두 권고의 제목을 붙인 것',
+  fn: (follows, advisories) => {
+    const t = {};
+    advisories.forEach((a) => { t[a.id] = a.title; });
+    return follows.map((f) => ({ from_id: f.from_id, from_title: t[f.from_id] || '', to_id: f.to_id, to_title: t[f.to_id] || '', reason: f.reason }));
+  },
+});
+</script>
+
+<script>
+(() => {
+  const KIND_CLASS = { 패치: 'patch', 주의: 'warn', 안내: 'info' };
+  const state = { tab: 'graph', q: '', cat: null, sel: null, showAdv: true, zoom: null, fit: null };
+  window.kgState = state;
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const fmtDay = (d) => d.slice(5).replace('-', '.');
+
+  // 탭
+  const tabs = { graph: $('#tab-graph'), ontology: $('#tab-ontology') };
+  const show = (name) => {
+    state.tab = name;
+    for (const [k, b] of Object.entries(tabs)) { b.setAttribute('aria-selected', String(k === name)); document.getElementById(k).hidden = k !== name; }
+    dash.setLink(name);
+    draw();
+  };
+  tabs.graph.addEventListener('click', () => show('graph'));
+  tabs.ontology.addEventListener('click', () => show('ontology'));
+
+  $('#kg-q').addEventListener('input', (e) => { state.q = e.target.value.trim().toLowerCase(); paintGraph(); });
+  $('#kg-toggle-adv').addEventListener('click', (e) => { state.showAdv = !state.showAdv; e.currentTarget.setAttribute('aria-pressed', String(state.showAdv)); drawGraph(); });
+  $('#kg-fit').addEventListener('click', () => state.fit && state.fit(true));
+
+  const failed = (box) => { box.classList.remove('dash-skeleton'); box.replaceChildren(el('div', 'kg-fail', 'Failed to load')); };
+  const statusOf = (ids) => {
+    const s = ids.map((id) => dash.data(id).status);
+    if (s.some((x) => x === 'error' || x === 'connect' || x === 'declined' || x === 'missing')) return 'error';
+    if (s.every((x) => x === 'ok')) return 'ok';
+    return 'loading';
+  };
+
+  let G = null; // 그래프 자료
+  let colorOf = () => 'currentColor';
+
+  function build() {
+    const adv = dash.data('advisories').data, prods = dash.data('products').data, fol = dash.data('follows').data;
+    const cats = [...new Set(prods.map((p) => p.category))].sort((a, b) => a.localeCompare(b));
+    const pal = dash.colors;
+    colorOf = (cat) => pal[cats.indexOf(cat) % pal.length];
+    const nodes = [], links = [], byId = new Map();
+    const add = (n) => { nodes.push(n); byId.set(n.id, n); return n; };
+    cats.forEach((c) => add({ id: 'c:' + c, type: 'cat', name: c, cat: c, r: 16 }));
+    prods.forEach((p) => add({ id: 'p:' + p.product, type: 'prod', name: p.product, cat: p.category, r: 4 + Math.sqrt(p.advisories) * 3, row: p }));
+    prods.forEach((p) => links.push({ source: 'p:' + p.product, target: 'c:' + p.category, type: 'belongs' }));
+    adv.forEach((a) => {
+      add({ id: 'a:' + a.id, type: 'adv', name: a.title, cat: a.category, r: 3.2, row: a });
+      links.push({ source: 'a:' + a.id, target: 'p:' + a.product, type: 'about' });
+    });
+    fol.forEach((f) => { if (byId.has('a:' + f.from_id) && byId.has('a:' + f.to_id)) links.push({ source: 'a:' + f.from_id, target: 'a:' + f.to_id, type: 'follows', reason: f.reason }); });
+    return { adv, prods, fol, cats, nodes, links, byId };
+  }
+
+  function layout(nodes, links, w, h) {
+    const sim = d3.forceSimulation(nodes)
+      .force('link', d3.forceLink(links).id((d) => d.id)
+        .distance((l) => l.type === 'belongs' ? 70 : l.type === 'about' ? 12 : 10)
+        .strength((l) => l.type === 'follows' ? 0.2 : l.type === 'belongs' ? 0.5 : 0.9))
+      .force('charge', d3.forceManyBody().strength((d) => d.type === 'cat' ? -420 : d.type === 'prod' ? -60 : -6))
+      .force('collide', d3.forceCollide((d) => d.r + (d.type === 'adv' ? 0.8 : 3)))
+      .force('x', d3.forceX(w / 2).strength(0.04))
+      .force('y', d3.forceY(h / 2).strength(0.06))
+      .stop();
+    for (let i = 0; i < 320; i++) sim.tick();
+  }
+
+  // 이웃
+  function neighbors(id) {
+    const s = new Set([id]);
+    G.links.forEach((l) => {
+      if (!visibleLink(l)) return;
+      if (l.source.id === id) s.add(l.target.id);
+      if (l.target.id === id) s.add(l.source.id);
+    });
+    const n = G.byId.get(id);
+    if (n && n.type === 'cat') G.links.forEach((l) => { if (l.type === 'about' && s.has(l.target.id)) s.add(l.source.id); });
+    return s;
+  }
+  const visibleNode = (n) => state.showAdv || n.type !== 'adv';
+  const visibleLink = (l) => state.showAdv || (l.source.type !== 'adv' && l.target.type !== 'adv');
+
+  let svgSel = null;
+  function drawGraph() {
+    const box = $('#kg-graph');
+    const st = statusOf(['advisories', 'products', 'follows']);
+    if (st === 'error') { failed(box); return; }
+    if (st !== 'ok') return;
+    box.classList.remove('dash-skeleton');
+    G = build();
+    const w = Math.max(280, box.clientWidth), h = Math.round(Math.min(640, Math.max(440, w * 0.68)));
+    box.style.minHeight = h + 'px';
+    layout(G.nodes, G.links, w, h);
+    box.replaceChildren();
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${w} ${h}`).attr('role', 'img').attr('aria-label', '권고, 제품, 분야를 잇는 지식 그래프');
+    svgSel = svg;
+    const g = svg.append('g');
+    g.append('g').attr('class', 'kg-links').selectAll('line').data(G.links.filter(visibleLink)).join('line')
+      .attr('x1', (l) => l.source.x).attr('y1', (l) => l.source.y).attr('x2', (l) => l.target.x).attr('y2', (l) => l.target.y)
+      .attr('stroke', (l) => l.type === 'follows' ? 'var(--color-fg)' : 'var(--cds-chart-grid)')
+      .attr('stroke-width', (l) => l.type === 'follows' ? 1.6 : l.type === 'belongs' ? 1.4 : 0.8)
+      .attr('stroke-dasharray', (l) => l.type === 'follows' ? '3 2' : null);
+    const node = g.append('g').selectAll('g').data(G.nodes.filter(visibleNode)).join('g')
+      .attr('class', 'kg-node').attr('transform', (d) => `translate(${d.x},${d.y})`)
+      .attr('tabindex', (d) => d.type === 'adv' ? null : 0).attr('role', 'button')
+      .attr('aria-label', (d) => d.type === 'cat' ? `분야 ${d.name}` : d.type === 'prod' ? `제품 ${d.name}` : d.name);
+    node.append('circle').attr('r', (d) => d.r)
+      .attr('fill', (d) => d.type === 'adv' && d.row.kind === '안내' ? 'var(--color-panel)' : colorOf(d.cat))
+      .attr('fill-opacity', (d) => d.type === 'cat' ? 0.9 : d.type === 'prod' ? 0.75 : 1)
+      .attr('stroke', (d) => d.type === 'cat' ? 'var(--color-panel)' : d.type === 'adv' && d.row.kind === '주의' ? 'var(--color-warn)' : d.type === 'adv' && d.row.kind === '안내' ? colorOf(d.cat) : 'var(--color-panel)')
+      .attr('stroke-width', (d) => d.type === 'cat' ? 3 : d.type === 'adv' && d.row.kind !== '패치' ? 1.6 : 1);
+    node.filter((d) => d.type === 'cat' || (d.type === 'prod' && d.row.has_page === true)).append('text')
+      .attr('class', (d) => 'kg-label' + (d.type === 'cat' ? ' cat' : ''))
+      .attr('text-anchor', 'middle').attr('dy', (d) => -d.r - 5).text((d) => d.name);
+
+    // 툴팁
+    const tip = d3.select(box).append('div').attr('class', 'kg-tip').style('display', 'none');
+    node.on('pointerenter', (event, d) => {
+      tip.style('display', null).selectAll('*').remove();
+      tip.append('span').attr('class', 'k').text(d.type === 'cat' ? '분야' : d.type === 'prod' ? `제품 · ${d.cat}` : `${d.row.date} ${d.row.time} · ${d.row.kind}`);
+      tip.append('span').text(d.type === 'prod' ? `${d.name} (${d.row.advisories}건)` : d.name);
+      const [mx, my] = d3.pointer(event, box);
+      const tw = tip.node().offsetWidth;
+      tip.style('left', Math.max(4, Math.min(box.clientWidth - tw - 4, mx + 12)) + 'px').style('top', (my + 14) + 'px');
+    }).on('pointerleave', () => tip.style('display', 'none'))
+      .on('click', (event, d) => { event.stopPropagation(); select(d.id); })
+      .on('keydown', (event, d) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select(d.id); } });
+    svg.on('click', () => select(null));
+
+    // 확대
+    const zoom = d3.zoom().scaleExtent([0.4, 6]).on('zoom', (e) => g.attr('transform', e.transform));
+    svg.call(zoom);
+    state.fit = (animate) => {
+      const vis = G.nodes.filter(visibleNode);
+      const x0 = d3.min(vis, (d) => d.x - d.r) - 30, x1 = d3.max(vis, (d) => d.x + d.r) + 30;
+      const y0 = d3.min(vis, (d) => d.y - d.r) - 30, y1 = d3.max(vis, (d) => d.y + d.r) + 20;
+      const k = Math.min(2, 0.95 / Math.max((x1 - x0) / w, (y1 - y0) / h));
+      const t = d3.zoomIdentity.translate(w / 2, h / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
+      (animate ? svg.transition().duration(400) : svg).call(zoom.transform, t);
+    };
+    state.fit(false);
+    paintGraph();
+  }
+
+  function matches(n) {
+    if (state.cat && n.cat !== state.cat) return false;
+    if (!state.q) return true;
+    const hay = (n.name + ' ' + (n.type === 'adv' ? n.row.product + ' ' + n.row.id : '')).toLowerCase();
+    return hay.includes(state.q);
+  }
+  function paintGraph() {
+    if (!svgSel || !G) return;
+    const focus = state.sel ? neighbors(state.sel) : null;
+    const filtering = state.cat || state.q;
+    const lit = (n) => focus ? focus.has(n.id) : filtering ? matches(n) || (n.type === 'cat' && (!state.cat || n.cat === state.cat)) : true;
+    svgSel.selectAll('.kg-node').attr('opacity', (d) => lit(d) ? 1 : 0.12);
+    svgSel.selectAll('.kg-node circle').attr('stroke-width', (d) => d.id === state.sel ? 3 : d.type === 'cat' ? 3 : d.type === 'adv' && d.row.kind !== '패치' ? 1.6 : 1)
+      .attr('stroke', (d) => d.id === state.sel ? 'var(--color-fg)' : d.type === 'adv' && d.row.kind === '주의' ? 'var(--color-warn)' : d.type === 'adv' && d.row.kind === '안내' ? colorOf(d.cat) : 'var(--color-panel)');
+    svgSel.selectAll('.kg-links line').attr('opacity', (l) => focus ? (focus.has(l.source.id) && focus.has(l.target.id) ? 1 : 0.06) : filtering ? (lit(l.source) && lit(l.target) ? 1 : 0.06) : 1);
+    drawDetail();
+    drawBars();
+  }
+  function select(id) { state.sel = id; paintGraph(); }
+
+  function kindChip(kind) { return el('span', 'kg-kind ' + (KIND_CLASS[kind] || 'patch'), kind); }
+  function advItem(a) {
+    const li = el('li');
+    li.append(el('span', 'kg-when', fmtDay(a.date)));
+    const b = el('button', null, a.title); b.type = 'button'; b.addEventListener('click', () => select('a:' + a.id));
+    li.append(b, kindChip(a.kind));
+    return li;
+  }
+  function kv(pairs) {
+    const dl = el('dl', 'kg-kv');
+    pairs.forEach(([k, v]) => { dl.append(el('dt', null, k), el('dd', null, v)); });
+    return dl;
+  }
+
+  function drawDetail() {
+    const box = $('#kg-detail');
+    if (!G) return;
+    box.replaceChildren();
+    const n = state.sel && G.byId.get(state.sel);
+    if (!n) {
+      box.append(el('h3', null, '점을 눌러 보세요'));
+      box.append(el('p', 'kg-note', '분야, 제품, 권고 가운데 하나를 누르면 이어진 것과 원본 위치가 여기에 나와요.'));
+      const lg = el('div', 'kg-legend');
+      const sw = (style, text) => { const s = el('span'); const d = el('span', 'kg-dot'); Object.assign(d.style, style); s.append(d, text); return s; };
+      lg.append(sw({ background: 'var(--color-fg-muted)' }, '꽉 찬 점: 패치 권고'));
+      lg.append(sw({ background: 'var(--color-fg-muted)', boxShadow: '0 0 0 2px var(--color-warn)' }, '주황 테두리: 주의 권고'));
+      lg.append(sw({ background: 'transparent', border: '1.5px solid var(--color-fg-muted)' }, '속 빈 점: 안내'));
+      lg.append(sw({ background: 'transparent', borderTop: '2px dashed var(--color-fg)', borderRadius: '0', height: '0', width: '14px' }, '점선: 이어진 권고'));
+      G.cats.forEach((c) => lg.append(sw({ background: colorOf(c) }, c)));
+      box.append(lg);
+      return;
+    }
+    if (n.type === 'cat') {
+      const ps = G.prods.filter((p) => p.category === n.name).sort((a, b) => b.advisories - a.advisories || a.product.localeCompare(b.product));
+      box.append(el('p', 'kg-note', '분야'), el('h3', null, n.name));
+      box.append(kv([['제품', ps.length + '개'], ['권고', d3.sum(ps, (p) => p.advisories) + '건']]));
+      const ul = el('ul', 'kg-list');
+      ps.forEach((p) => {
+        const li = el('li'); li.append(el('span', 'kg-when', p.advisories + '건'));
+        const b = el('button', null, p.product); b.type = 'button'; b.addEventListener('click', () => select('p:' + p.product));
+        li.append(b, el('span')); ul.append(li);
+      });
+      box.append(ul);
+    } else if (n.type === 'prod') {
+      const p = n.row;
+      const items = G.adv.filter((a) => a.product === p.product).sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+      box.append(el('p', 'kg-note', '제품 · ' + p.category), el('h3', null, p.product));
+      box.append(kv([['권고', p.advisories + '건'], ['처음', p.first], ['가장 최근', p.last], ['위키 쪽', p.has_page === true ? '있어요 (docs/kb/products/)' : '없어요 (3건이 되면 만들어요)']]));
+      const ul = el('ul', 'kg-list'); items.forEach((a) => ul.append(advItem(a))); box.append(ul);
+    } else {
+      const a = n.row;
+      box.append(el('p', 'kg-note', '권고 · ' + a.kind), el('h3', null, a.title));
+      box.append(kv([['권고 ID', a.id], ['받은 때', a.date + ' ' + a.time], ['제품', a.product], ['분야', a.category], ['원본', 'kakaotalk-2026-10-23.txt:' + a.source_line]]));
+      const pb = el('button', 'kg-chip', a.product + ' 권고 모두 보기'); pb.type = 'button'; pb.addEventListener('click', () => select('p:' + a.product));
+      box.append(pb);
+      const before = G.fol.filter((f) => f.to_id === a.id), after = G.fol.filter((f) => f.from_id === a.id);
+      if (before.length || after.length) {
+        box.append(el('p', 'kg-note', '이어진 권고'));
+        const ul = el('ul', 'kg-list');
+        const byAid = new Map(G.adv.map((x) => [x.id, x]));
+        before.forEach((f) => { const x = byAid.get(f.from_id); if (x) ul.append(advItem(x)); });
+        after.forEach((f) => { const x = byAid.get(f.to_id); if (x) ul.append(advItem(x)); });
+        box.append(ul);
+      }
+    }
+  }
+
+  function drawBars() {
+    const box = $('#kg-bars');
+    const d = dash.data('by_category');
+    if (d.status === 'error') { failed(box); return; }
+    if (d.status !== 'ok' || !G) return;
+    box.classList.remove('dash-skeleton');
+    const max = d3.max(d.data, (r) => r.count) || 1;
+    box.replaceChildren(...d.data.map((r) => {
+      const b = el('button', 'kg-bar'); b.type = 'button'; b.setAttribute('aria-pressed', String(state.cat === r.category));
+      const name = el('span', null, r.category);
+      const track = el('span', 'track'), fill = el('span', 'fill');
+      fill.style.width = (r.count / max * 100) + '%'; fill.style.background = colorOf(r.category); fill.style.display = 'block';
+      track.append(fill);
+      b.append(name, track, el('span', 'n', d3.format(',')(r.count) + '건'));
+      b.addEventListener('click', () => { state.cat = state.cat === r.category ? null : r.category; state.sel = null; paintGraph(); });
+      return b;
+    }));
+  }
+
+  // 온톨로지 그림
+  const POS = {
+    '원본 파일': [0.08, 0.56], '알림': [0.28, 0.56], '권고문': [0.5, 0.56], '제품': [0.72, 0.34], '분야': [0.92, 0.34],
+    '종류': [0.72, 0.8], 'CVE': [0.5, 0.92], '확인 사항': [0.28, 0.86], '기록': [0.28, 0.12], '쪽': [0.55, 0.12],
+  };
+  function drawSchema() {
+    const box = $('#kg-schema');
+    const st = statusOf(['ontology_concepts', 'ontology_relations']);
+    if (st === 'error') { failed(box); return; }
+    if (st !== 'ok') return;
+    box.classList.remove('dash-skeleton');
+    const concepts = dash.data('ontology_concepts').data, rels = dash.data('ontology_relations').data;
+    const narrow = box.clientWidth < 600;
+    const w = Math.max(300, box.clientWidth), h = narrow ? 760 : 440;
+    box.style.minHeight = h + 'px';
+    const pos = (name, i) => {
+      const p = POS[name] || [0.1 + (i % 5) * 0.2, 0.5];
+      return narrow ? [12 + (w - 24) * (p[1] * 0.9 + 0.05), 30 + (h - 60) * p[0]] : [12 + (w - 24) * p[0], 30 + (h - 60) * p[1]];
+    };
+    box.replaceChildren();
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${w} ${h}`).attr('role', 'img').attr('aria-label', '온톨로지 개념과 관계 그림');
+    svg.append('defs').append('marker').attr('id', 'kg-arrow').attr('viewBox', '0 0 10 10').attr('refX', 9).attr('refY', 5)
+      .attr('markerWidth', 7).attr('markerHeight', 7).attr('orient', 'auto-start-reverse')
+      .append('path').attr('d', 'M0,0 L10,5 L0,10 z').attr('fill', 'var(--color-fg-muted)');
+    const nodes = concepts.map((c, i) => { const [x, y] = pos(c.concept, i); return { ...c, x, y }; });
+    const by = new Map(nodes.map((n) => [n.concept, n]));
+    // 상자 크기를 글자에 맞춤
+    const gN = svg.append('g');
+    const ng = gN.selectAll('g').data(nodes).join('g').attr('transform', (d) => `translate(${d.x},${d.y})`);
+    const label = ng.append('text').attr('text-anchor', 'middle').attr('dy', '0.35em').attr('font-size', 13).attr('fill', 'var(--color-fg)');
+    label.append('tspan').attr('font-weight', 600).text((d) => d.concept);
+    label.append('tspan').attr('dx', 6).attr('fill', 'var(--color-fg-muted)').attr('font-variant-numeric', 'tabular-nums').text((d) => d3.format(',')(d.count));
+    label.each(function (d) { d.hw = this.getComputedTextLength() / 2 + 12; d.hh = 15; });
+    ng.insert('rect', 'text').attr('x', (d) => -d.hw).attr('y', (d) => -d.hh).attr('width', (d) => d.hw * 2).attr('height', (d) => d.hh * 2)
+      .attr('rx', 8).attr('fill', 'var(--color-bg)').attr('stroke', (d) => d.concept === '권고문' ? 'var(--color-fg)' : 'var(--color-border-line)')
+      .attr('stroke-width', (d) => d.concept === '권고문' ? 1.5 : 1);
+    // 상자 가장자리까지 자르기
+    const edge = (a, b) => {
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const t = Math.min(Math.abs(dx) > 0 ? a.hw / Math.abs(dx) : Infinity, Math.abs(dy) > 0 ? a.hh / Math.abs(dy) : Infinity);
+      return [a.x + dx * t, a.y + dy * t];
+    };
+    const gE = svg.insert('g', 'g');
+    const gL = svg.append('g');
+    rels.forEach((r) => {
+      const a = by.get(r.from), b = by.get(r.to);
+      if (!a || !b) return;
+      const dash_ = r.always === false ? '4 3' : null;
+      if (a === b) {
+        const x = a.x, y = a.y - a.hh;
+        gE.append('path').attr('d', `M${x - 14},${y} C${x - 34},${y - 48} ${x + 34},${y - 48} ${x + 14},${y}`)
+          .attr('fill', 'none').attr('stroke', 'var(--color-fg-muted)').attr('stroke-dasharray', dash_).attr('marker-end', 'url(#kg-arrow)');
+        addLabel(x, y - 40, r.relation);
+        return;
+      }
+      const [x1, y1] = edge(a, b), [x2, y2] = edge(b, a);
+      gE.append('line').attr('x1', x1).attr('y1', y1).attr('x2', x2).attr('y2', y2)
+        .attr('stroke', 'var(--color-fg-muted)').attr('stroke-width', 1.2).attr('stroke-dasharray', dash_).attr('marker-end', 'url(#kg-arrow)');
+      addLabel((x1 + x2) / 2, (y1 + y2) / 2, r.relation);
+    });
+    function addLabel(x, y, text) {
+      const t = gL.append('text').attr('x', x).attr('y', y).attr('dy', '0.35em').attr('text-anchor', 'middle').attr('font-size', 11)
+        .attr('fill', 'var(--color-fg-muted)').attr('class', 'kg-label').style('font-size', '11px').text(text);
+      t.style('fill', 'var(--color-fg-muted)');
+    }
+  }
+
+  function fillTable(sel, id, cols, numCols = []) {
+    const d = dash.data(id);
+    const tb = document.querySelector(sel + ' tbody');
+    if (d.status !== 'ok') { tb.replaceChildren(); return; }
+    tb.replaceChildren(...d.data.map((r) => {
+      const tr = el('tr');
+      cols.forEach((c) => tr.append(el('td', numCols.includes(c) ? 'num' : null, r[c] == null ? '' : String(r[c]))));
+      return tr;
+    }));
+  }
+
+  function draw() {
+    if (state.tab === 'graph') drawGraph();
+    else {
+      drawSchema();
+      fillTable('#kg-concepts', 'ontology_concepts', ['concept', 'meaning', 'identifier', 'where', 'count'], ['count']);
+      fillTable('#kg-relations', 'ontology_relations', ['relation', 'from', 'to', 'cardinality', 'example']);
+      fillTable('#kg-follows', 'follow_pairs', ['from_id', 'from_title', 'to_id', 'to_title', 'reason']);
+    }
+  }
+
+  dash.onData(() => {
+    document.querySelectorAll('.kg-num').forEach((n) => { if (dash.data('summary').status !== 'loading') n.classList.remove('dash-skeleton'); });
+    const s = dash.data('summary'), t = dash.data('top_product');
+    const put = (selector, ds, field) => document.querySelectorAll(selector).forEach((n) => { n.textContent = ds.status === 'ok' && ds.data[0] ? d3.format(',')(ds.data[0][field]) : '—'; });
+    ['advisories', 'products', 'categories', 'product_pages', 'follows'].forEach((f) => put(`[data-source="summary"][data-field="${f}"]`, s, f));
+    document.querySelectorAll('[data-source="top_product"][data-field="product"]').forEach((n) => { n.textContent = t.status === 'ok' && t.data[0] ? t.data[0].product : '—'; });
+    put('[data-source="top_product"][data-field="advisories"]', t, 'advisories');
+    draw();
+  });
+
+  const named = location.hash.slice(1);
+  if (named === 'ontology') show('ontology');
+})();
+</script>
+
+<footer class="site-foot">
+  <span>자료: 금융보안원 금융보안레그테크 카카오톡 채널의 보안권고문 알림(제목만). 영향 버전과 조치 방법은 금보원 홈페이지 정보제공 › 사이버 위협정보 › 보안권고문의 원문을 봐요.</span>
+  <span>위키와 온톨로지 원문: <a href="https://github.com/darman1984/fsi-advisories">github.com/darman1984/fsi-advisories</a> · 데이터 기준일 <span id="site-asof">—</span></span>
+</footer>
+</div>
+<script>
+dash.onData(() => {
+  const a = dash.data('advisories');
+  if (a.status === 'ok' && a.data.length) document.getElementById('site-asof').textContent = a.data.reduce((m, r) => r.date > m ? r.date : m, '');
+});
+</script>
+</body>
+</html>

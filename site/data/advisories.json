@@ -1,0 +1,1172 @@
+[
+    {
+        "id":  "A-20260515-1300",
+        "date":  "2026-05-15",
+        "time":  "13:00",
+        "title":  "NGINX 제품 보안 업데이트 권고",
+        "product":  "NGINX",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  5
+    },
+    {
+        "id":  "A-20260519-1800",
+        "date":  "2026-05-19",
+        "time":  "18:00",
+        "title":  "Linux kernel 보안 업데이트 권고",
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  14
+    },
+    {
+        "id":  "A-20260520-1710",
+        "date":  "2026-05-20",
+        "time":  "17:10",
+        "title":  "NGINX 제품 보안 업데이트 권고",
+        "product":  "NGINX",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  23
+    },
+    {
+        "id":  "A-20260520-1805",
+        "date":  "2026-05-20",
+        "time":  "18:05",
+        "title":  "Cisco 제품 보안 업데이트 권고",
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  31
+    },
+    {
+        "id":  "A-20260521-2111",
+        "date":  "2026-05-21",
+        "time":  "21:11",
+        "title":  "지미션社 WEB FAX 제품 보안 업데이트 권고",
+        "product":  "지미션 WEB FAX",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  40
+    },
+    {
+        "id":  "A-20260522-1729",
+        "date":  "2026-05-22",
+        "time":  "17:29",
+        "title":  "Cisco 제품 보안 업데이트 권고",
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  49
+    },
+    {
+        "id":  "A-20260522-2137",
+        "date":  "2026-05-22",
+        "time":  "21:37",
+        "title":  "VMware 제품 보안 업데이트 권고",
+        "product":  "VMware",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  57
+    },
+    {
+        "id":  "A-20260522-2227",
+        "date":  "2026-05-22",
+        "time":  "22:27",
+        "title":  "NVIDIA 제품 보안 업데이트 권고",
+        "product":  "NVIDIA",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  65
+    },
+    {
+        "id":  "A-20260522-2344",
+        "date":  "2026-05-22",
+        "time":  "23:44",
+        "title":  "Ivanti 제품 보안 업데이트 권고",
+        "product":  "Ivanti",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  73
+    },
+    {
+        "id":  "A-20260525-2113",
+        "date":  "2026-05-25",
+        "time":  "21:13",
+        "title":  "프로젝트 글래스윙 공개 취약점 신속 패치 권고",
+        "product":  "프로젝트 글래스윙",
+        "category":  "위협 동향·점검",
+        "kind":  "패치",
+        "source_line":  82
+    },
+    {
+        "id":  "A-20260526-2109",
+        "date":  "2026-05-26",
+        "time":  "21:09",
+        "title":  "NVIDIA 제품 보안 업데이트 권고",
+        "product":  "NVIDIA",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  91
+    },
+    {
+        "id":  "A-20260527-1722",
+        "date":  "2026-05-27",
+        "time":  "17:22",
+        "title":  "Trend Micro 제품 보안 업데이트 권고",
+        "product":  "Trend Micro",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  100
+    },
+    {
+        "id":  "A-20260528-1700",
+        "date":  "2026-05-28",
+        "time":  "17:00",
+        "title":  "7-Zip 제품 보안 업데이트 권고",
+        "product":  "7-Zip",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  109
+    },
+    {
+        "id":  "A-20260529-1704",
+        "date":  "2026-05-29",
+        "time":  "17:04",
+        "title":  "Portainer 제품 보안 업데이트 권고",
+        "product":  "Portainer",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  118
+    },
+    {
+        "id":  "A-20260529-1907",
+        "date":  "2026-05-29",
+        "time":  "19:07",
+        "title":  "Linux Kernel 보안 업데이트 권고",
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  126
+    },
+    {
+        "id":  "A-20260601-1353",
+        "date":  "2026-06-01",
+        "time":  "13:53",
+        "title":  "Notepad++ 제품 보안 업데이트 권고",
+        "product":  "Notepad++",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  135
+    },
+    {
+        "id":  "A-20260601-2104",
+        "date":  "2026-06-01",
+        "time":  "21:04",
+        "title":  "Palo Alto PAN-OS GlobalProtect VPN 보안 업데이트 권고",
+        "product":  "Palo Alto Networks",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  143
+    },
+    {
+        "id":  "A-20260604-1724",
+        "date":  "2026-06-04",
+        "time":  "17:24",
+        "title":  "WordPress 플러그인 보안 업데이트 권고",
+        "product":  "WordPress",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  152
+    },
+    {
+        "id":  "A-20260605-2124",
+        "date":  "2026-06-05",
+        "time":  "21:24",
+        "title":  "안드로이드OS 보안 업데이트 권고",
+        "product":  "Android",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  161
+    },
+    {
+        "id":  "A-20260605-2208",
+        "date":  "2026-06-05",
+        "time":  "22:08",
+        "title":  "HP 제품 보안 업데이트 권고",
+        "product":  "HP",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  169
+    },
+    {
+        "id":  "A-20260605-2257",
+        "date":  "2026-06-05",
+        "time":  "22:57",
+        "title":  "GitLab 제품 보안 업데이트 권고",
+        "product":  "GitLab",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  177
+    },
+    {
+        "id":  "A-20260605-2318",
+        "date":  "2026-06-05",
+        "time":  "23:18",
+        "title":  "IBM 제품 보안 업데이트 권고",
+        "product":  "IBM",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  185
+    },
+    {
+        "id":  "A-20260608-1734",
+        "date":  "2026-06-08",
+        "time":  "17:34",
+        "title":  "Secuve TOS 취약점 관련 주의 권고",
+        "product":  "Secuve TOS",
+        "category":  "네트워크·보안장비",
+        "kind":  "주의",
+        "source_line":  194
+    },
+    {
+        "id":  "A-20260608-1924",
+        "date":  "2026-06-08",
+        "time":  "19:24",
+        "title":  "SolarWinds 제품 보안 업데이트 권고",
+        "product":  "SolarWinds",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  202
+    },
+    {
+        "id":  "A-20260609-1700",
+        "date":  "2026-06-09",
+        "time":  "17:00",
+        "title":  "Check Point VPN 보안 업데이트 권고",
+        "product":  "Check Point",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  211
+    },
+    {
+        "id":  "A-20260610-2129",
+        "date":  "2026-06-10",
+        "time":  "21:29",
+        "title":  "Veeam 제품 보안 업데이트 권고",
+        "product":  "Veeam",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  220
+    },
+    {
+        "id":  "A-20260610-2329",
+        "date":  "2026-06-10",
+        "time":  "23:29",
+        "title":  "Linux Kernel 보안 업데이트 권고",
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  228
+    },
+    {
+        "id":  "A-20260611-1415",
+        "date":  "2026-06-11",
+        "time":  "14:15",
+        "title":  "MS 6월 보안 위협에 따른 정기 보안 업데이트 권고",
+        "product":  "Microsoft 정기 업데이트",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  237
+    },
+    {
+        "id":  "A-20260612-0932",
+        "date":  "2026-06-12",
+        "time":  "09:32",
+        "title":  "위성통신망 대상 해킹공격 주의 및 기관별 자체 보안점검 수행 권고",
+        "product":  "위성통신망",
+        "category":  "위협 동향·점검",
+        "kind":  "안내",
+        "source_line":  246
+    },
+    {
+        "id":  "A-20260617-1347",
+        "date":  "2026-06-17",
+        "time":  "13:47",
+        "title":  "한컴위드社 AnySign4PC 제품 보안 업데이트 권고",
+        "product":  "한컴위드 AnySign4PC",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  255
+    },
+    {
+        "id":  "A-20260617-1728",
+        "date":  "2026-06-17",
+        "time":  "17:28",
+        "title":  "Ivanti 제품 보안 업데이트 권고",
+        "product":  "Ivanti",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  263
+    },
+    {
+        "id":  "A-20260617-1931",
+        "date":  "2026-06-17",
+        "time":  "19:31",
+        "title":  "비즈웰社 xClick 그룹웨어 제품 보안 업데이트 권고(1차)",
+        "product":  "비즈웰 xClick",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  271
+    },
+    {
+        "id":  "A-20260617-2147",
+        "date":  "2026-06-17",
+        "time":  "21:47",
+        "title":  "Spring 제품 보안 업데이트 권고",
+        "product":  "Spring",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  279
+    },
+    {
+        "id":  "A-20260617-2254",
+        "date":  "2026-06-17",
+        "time":  "22:54",
+        "title":  "OpenSSL 제품 보안 업데이트 권고",
+        "product":  "OpenSSL",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  287
+    },
+    {
+        "id":  "A-20260618-1731",
+        "date":  "2026-06-18",
+        "time":  "17:31",
+        "title":  "웹서버 HTTP/2 관련 제품 보안 업데이트 권고",
+        "product":  "HTTP/2 웹서버",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  296
+    },
+    {
+        "id":  "A-20260618-1853",
+        "date":  "2026-06-18",
+        "time":  "18:53",
+        "title":  "Spring 제품 보안 업데이트 권고",
+        "product":  "Spring",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  304
+    },
+    {
+        "id":  "A-20260619-2100",
+        "date":  "2026-06-19",
+        "time":  "21:00",
+        "title":  "Cisco 제품 보안 업데이트 권고",
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  313
+    },
+    {
+        "id":  "A-20260619-2251",
+        "date":  "2026-06-19",
+        "time":  "22:51",
+        "title":  "Fortinet 제품 보안 업데이트 권고",
+        "product":  "Fortinet",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  321
+    },
+    {
+        "id":  "A-20260623-1753",
+        "date":  "2026-06-23",
+        "time":  "17:53",
+        "title":  "D-Link 제품 보안 업데이트 권고",
+        "product":  "D-Link",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  330
+    },
+    {
+        "id":  "A-20260623-1926",
+        "date":  "2026-06-23",
+        "time":  "19:26",
+        "title":  "FFmpeg 제품 보안 업데이트 권고",
+        "product":  "FFmpeg",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  338
+    },
+    {
+        "id":  "A-20260626-1314",
+        "date":  "2026-06-26",
+        "time":  "13:14",
+        "title":  "美 CISA 발표 주요 Exploit 정보공유(Update. 2026-06-25)",
+        "product":  "CISA Exploit 정보",
+        "category":  "위협 동향·점검",
+        "kind":  "안내",
+        "source_line":  347
+    },
+    {
+        "id":  "A-20260626-2112",
+        "date":  "2026-06-26",
+        "time":  "21:12",
+        "title":  "Spring 제품 보안 업데이트 권고",
+        "product":  "Spring",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  355
+    },
+    {
+        "id":  "A-20260626-2323",
+        "date":  "2026-06-26",
+        "time":  "23:23",
+        "title":  "F5 제품 보안 업데이트 권고",
+        "product":  "F5",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  363
+    },
+    {
+        "id":  "A-20260629-2107",
+        "date":  "2026-06-29",
+        "time":  "21:07",
+        "title":  "Linux Kernel 제품 보안 업데이트 권고",
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  372
+    },
+    {
+        "id":  "A-20260629-2333",
+        "date":  "2026-06-29",
+        "time":  "23:33",
+        "title":  "curl 제품 보안 업데이트 권고",
+        "product":  "curl",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  380
+    },
+    {
+        "id":  "A-20260630-2127",
+        "date":  "2026-06-30",
+        "time":  "21:27",
+        "title":  "美 CISA 발표 주요 Exploit 정보공유(Update. 2026-06-29)",
+        "product":  "CISA Exploit 정보",
+        "category":  "위협 동향·점검",
+        "kind":  "안내",
+        "source_line":  389
+    },
+    {
+        "id":  "A-20260701-1001",
+        "date":  "2026-07-01",
+        "time":  "10:01",
+        "title":  "OzWebLauncher 취약점 관련 주의 권고",
+        "product":  "OzWebLauncher",
+        "category":  "PC·업무용 SW",
+        "kind":  "주의",
+        "source_line":  398
+    },
+    {
+        "id":  "A-20260702-2237",
+        "date":  "2026-07-02",
+        "time":  "22:37",
+        "title":  "IBM 제품 보안 업데이트 권고",
+        "product":  "IBM",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  407
+    },
+    {
+        "id":  "A-20260703-1356",
+        "date":  "2026-07-03",
+        "time":  "13:56",
+        "title":  "CitrixBleed 취약점 관련 보안 업데이트 권고",
+        "product":  "Citrix·NetScaler",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  416
+    },
+    {
+        "id":  "A-20260703-2207",
+        "date":  "2026-07-03",
+        "time":  "22:07",
+        "title":  "HiveOn 취약점 관련 주의 권고",
+        "product":  "HiveOn",
+        "category":  "PC·업무용 SW",
+        "kind":  "주의",
+        "source_line":  424
+    },
+    {
+        "id":  "A-20260703-2329",
+        "date":  "2026-07-03",
+        "time":  "23:29",
+        "title":  "SoftManager 취약점 관련 주의 권고",
+        "product":  "SoftManager",
+        "category":  "PC·업무용 SW",
+        "kind":  "주의",
+        "source_line":  432
+    },
+    {
+        "id":  "A-20260707-2100",
+        "date":  "2026-07-07",
+        "time":  "21:00",
+        "title":  "Linux Kernel 제품 보안 업데이트 권고",
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  441
+    },
+    {
+        "id":  "A-20260709-0924",
+        "date":  "2026-07-09",
+        "time":  "09:24",
+        "title":  "Linux KVM 보안 업데이트 권고",
+        "product":  "Linux KVM",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  450
+    },
+    {
+        "id":  "A-20260709-1135",
+        "date":  "2026-07-09",
+        "time":  "11:35",
+        "title":  "Linux Kernel 보안 업데이트 권고",
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  458
+    },
+    {
+        "id":  "A-20260710-2123",
+        "date":  "2026-07-10",
+        "time":  "21:23",
+        "title":  "HiveOn 제품 보안 업데이트 권고",
+        "product":  "HiveOn",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  467
+    },
+    {
+        "id":  "A-20260710-2244",
+        "date":  "2026-07-10",
+        "time":  "22:44",
+        "title":  "SoftManager 제품 보안 주의 권고",
+        "product":  "SoftManager",
+        "category":  "PC·업무용 SW",
+        "kind":  "주의",
+        "source_line":  475
+    },
+    {
+        "id":  "A-20260714-2209",
+        "date":  "2026-07-14",
+        "time":  "22:09",
+        "title":  "각급 기관 사이버 위기 대응 강화 안내",
+        "product":  "사이버 위기 대응",
+        "category":  "위협 동향·점검",
+        "kind":  "안내",
+        "source_line":  484
+    },
+    {
+        "id":  "A-20260716-1319",
+        "date":  "2026-07-16",
+        "time":  "13:19",
+        "title":  "MS 7월 보안 위협에 따른 정기 보안 업데이트 권고",
+        "product":  "Microsoft 정기 업데이트",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  493
+    },
+    {
+        "id":  "A-20260716-2214",
+        "date":  "2026-07-16",
+        "time":  "22:14",
+        "title":  "MS 7월 보안 위협에 따른 정기 보안 업데이트 권고",
+        "product":  "Microsoft 정기 업데이트",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  501
+    },
+    {
+        "id":  "A-20260720-1722",
+        "date":  "2026-07-20",
+        "time":  "17:22",
+        "title":  "Zoom 제품 보안 업데이트 권고",
+        "product":  "Zoom",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  510
+    },
+    {
+        "id":  "A-20260720-1919",
+        "date":  "2026-07-20",
+        "time":  "19:19",
+        "title":  "NGINX 제품 보안 업데이트 권고",
+        "product":  "NGINX",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  518
+    },
+    {
+        "id":  "A-20260727-1902",
+        "date":  "2026-07-27",
+        "time":  "19:02",
+        "title":  "나모 크로스에디터 제품 보안강화 권고",
+        "product":  "나모 크로스에디터",
+        "category":  "PC·업무용 SW",
+        "kind":  "주의",
+        "source_line":  527
+    },
+    {
+        "id":  "A-20260727-1921",
+        "date":  "2026-07-27",
+        "time":  "19:21",
+        "title":  "포티넷(Fortinet) 제품 계정정보 유출 관련 보안 강화 권고",
+        "product":  "Fortinet",
+        "category":  "네트워크·보안장비",
+        "kind":  "주의",
+        "source_line":  535
+    },
+    {
+        "id":  "A-20260730-0922",
+        "date":  "2026-07-30",
+        "time":  "09:22",
+        "title":  "Fortinet 제품 보안 업데이트 권고",
+        "product":  "Fortinet",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  544
+    },
+    {
+        "id":  "A-20260730-2215",
+        "date":  "2026-07-30",
+        "time":  "22:15",
+        "title":  "스팸차단솔루션 보안강화 권고",
+        "product":  "스팸차단솔루션",
+        "category":  "네트워크·보안장비",
+        "kind":  "주의",
+        "source_line":  552
+    },
+    {
+        "id":  "A-20260803-1806",
+        "date":  "2026-08-03",
+        "time":  "18:06",
+        "title":  "Adobe 제품 보안 업데이트 권고",
+        "product":  "Adobe",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  561
+    },
+    {
+        "id":  "A-20260804-2111",
+        "date":  "2026-08-04",
+        "time":  "21:11",
+        "title":  "Rails 제품 보안 업데이트 권고",
+        "product":  "Rails",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  570
+    },
+    {
+        "id":  "A-20260806-1724",
+        "date":  "2026-08-06",
+        "time":  "17:24",
+        "title":  "picklescan 제품 보안 업데이트 권고",
+        "product":  "picklescan",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  579
+    },
+    {
+        "id":  "A-20260807-2105",
+        "date":  "2026-08-07",
+        "time":  "21:05",
+        "title":  "Apache 제품 보안 업데이트 권고",
+        "product":  "Apache",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  588
+    },
+    {
+        "id":  "A-20260807-2219",
+        "date":  "2026-08-07",
+        "time":  "22:19",
+        "title":  "Langflow 제품 보안 업데이트 권고",
+        "product":  "Langflow",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  596
+    },
+    {
+        "id":  "A-20260810-1725",
+        "date":  "2026-08-10",
+        "time":  "17:25",
+        "title":  "JetBrains 제품 보안 업데이트 권고",
+        "product":  "JetBrains",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  605
+    },
+    {
+        "id":  "A-20260810-1859",
+        "date":  "2026-08-10",
+        "time":  "18:59",
+        "title":  "WordPress 제품 보안 업데이트 권고",
+        "product":  "WordPress",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  613
+    },
+    {
+        "id":  "A-20260810-2107",
+        "date":  "2026-08-10",
+        "time":  "21:07",
+        "title":  "소만사社 Privacy-i 외 5종 제품 보안 업데이트 권고",
+        "product":  "소만사 Privacy-i 등",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  621
+    },
+    {
+        "id":  "A-20260811-1717",
+        "date":  "2026-08-11",
+        "time":  "17:17",
+        "title":  "Metabase 제품 보안 업데이트 권고",
+        "product":  "Metabase",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  630
+    },
+    {
+        "id":  "A-20260814-1703",
+        "date":  "2026-08-14",
+        "time":  "17:03",
+        "title":  "Cisco 제품 보안 업데이트 권고",
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  639
+    },
+    {
+        "id":  "A-20260819-2112",
+        "date":  "2026-08-19",
+        "time":  "21:12",
+        "title":  "MS 8월 보안 위협에 따른 정기 보안 업데이트 권고",
+        "product":  "Microsoft 정기 업데이트",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  648
+    },
+    {
+        "id":  "A-20260819-2333",
+        "date":  "2026-08-19",
+        "time":  "23:33",
+        "title":  "일부 SW 제품 사용 주의 권고",
+        "product":  "일부 SW 제품",
+        "category":  "위협 동향·점검",
+        "kind":  "주의",
+        "source_line":  656
+    },
+    {
+        "id":  "A-20260820-1705",
+        "date":  "2026-08-20",
+        "time":  "17:05",
+        "title":  "주요 AI 인프라 S/W 취약점 보안 권고문",
+        "product":  "AI 인프라 SW",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  665
+    },
+    {
+        "id":  "A-20260820-2107",
+        "date":  "2026-08-20",
+        "time":  "21:07",
+        "title":  "PostgreSQL 제품 보안 업데이트 권고",
+        "product":  "PostgreSQL",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  673
+    },
+    {
+        "id":  "A-20260820-2145",
+        "date":  "2026-08-20",
+        "time":  "21:45",
+        "title":  "Citrix 제품 보안 업데이트 권고",
+        "product":  "Citrix·NetScaler",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  681
+    },
+    {
+        "id":  "A-20260821-1300",
+        "date":  "2026-08-21",
+        "time":  "13:00",
+        "title":  "지니언스社 Genian NAC 제품 보안 업데이트 권고",
+        "product":  "지니언스 Genian NAC",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  690
+    },
+    {
+        "id":  "A-20260821-1436",
+        "date":  "2026-08-21",
+        "time":  "14:36",
+        "title":  "MLflow 제품 보안 업데이트 권고",
+        "product":  "MLflow",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  698
+    },
+    {
+        "id":  "A-20260824-1704",
+        "date":  "2026-08-24",
+        "time":  "17:04",
+        "title":  "Cisco 제품 보안 업데이트 권고",
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  707
+    },
+    {
+        "id":  "A-20260826-1710",
+        "date":  "2026-08-26",
+        "time":  "17:10",
+        "title":  "Oracle WebLogic Server Proxy Plug-in 취약점 패치 권고 (CVE-2026-21962)",
+        "product":  "Oracle WebLogic",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  716
+    },
+    {
+        "id":  "A-20260827-2100",
+        "date":  "2026-08-27",
+        "time":  "21:00",
+        "title":  "Gitea 제품 보안 업데이트 권고",
+        "product":  "Gitea",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  725
+    },
+    {
+        "id":  "A-20260903-2105",
+        "date":  "2026-09-03",
+        "time":  "21:05",
+        "title":  "Cisco 제품 보안 업데이트 권고",
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  734
+    },
+    {
+        "id":  "A-20260903-2131",
+        "date":  "2026-09-03",
+        "time":  "21:31",
+        "title":  "Metabase 제품 보안 업데이트 권고",
+        "product":  "Metabase",
+        "category":  "AI·데이터",
+        "kind":  "패치",
+        "source_line":  742
+    },
+    {
+        "id":  "A-20260909-2106",
+        "date":  "2026-09-09",
+        "time":  "21:06",
+        "title":  "Adobe 제품 보안 업데이트 권고",
+        "product":  "Adobe",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  751
+    },
+    {
+        "id":  "A-20260909-2111",
+        "date":  "2026-09-09",
+        "time":  "21:11",
+        "title":  "MS 9월 보안 위협에 따른 정기 보안 업데이트 권고",
+        "product":  "Microsoft 정기 업데이트",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  759
+    },
+    {
+        "id":  "A-20260911-0906",
+        "date":  "2026-09-11",
+        "time":  "09:06",
+        "title":  "PostgreSQL 제품 보안 업데이트 권고",
+        "product":  "PostgreSQL",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  768
+    },
+    {
+        "id":  "A-20260911-0955",
+        "date":  "2026-09-11",
+        "time":  "09:55",
+        "title":  "Linux 제품 보안 업데이트 권고",
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "kind":  "패치",
+        "source_line":  776
+    },
+    {
+        "id":  "A-20260916-1749",
+        "date":  "2026-09-16",
+        "time":  "17:49",
+        "title":  "브레인즈컴퍼니社 Zenius EMS 제품 보안 업데이트 권고",
+        "product":  "브레인즈컴퍼니 Zenius EMS",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  785
+    },
+    {
+        "id":  "A-20260922-1816",
+        "date":  "2026-09-22",
+        "time":  "18:16",
+        "title":  "WordPress 제품 보안 업데이트 권고",
+        "product":  "WordPress",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  794
+    },
+    {
+        "id":  "A-20260924-1425",
+        "date":  "2026-09-24",
+        "time":  "14:25",
+        "title":  "WordPress 제품 보안 업데이트 권고",
+        "product":  "WordPress",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  803
+    },
+    {
+        "id":  "A-20260924-1430",
+        "date":  "2026-09-24",
+        "time":  "14:30",
+        "title":  "Check Point 제품 보안 업데이트 권고",
+        "product":  "Check Point",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  811
+    },
+    {
+        "id":  "A-20260928-2135",
+        "date":  "2026-09-28",
+        "time":  "21:35",
+        "title":  "NetScaler ADC 및 NetScaler Gateway 취약점 패치 권고 (CVE-2026-88771~88778)",
+        "product":  "Citrix·NetScaler",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  820
+    },
+    {
+        "id":  "A-20260929-2151",
+        "date":  "2026-09-29",
+        "time":  "21:51",
+        "title":  "Adobe 제품 보안 업데이트 권고",
+        "product":  "Adobe",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  829
+    },
+    {
+        "id":  "A-20260929-2358",
+        "date":  "2026-09-29",
+        "time":  "23:58",
+        "title":  "Citrix 제품 보안 업데이트 권고",
+        "product":  "Citrix·NetScaler",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  837
+    },
+    {
+        "id":  "A-20261001-0930",
+        "date":  "2026-10-01",
+        "time":  "09:30",
+        "title":  "Apache 제품 보안 업데이트 권고",
+        "product":  "Apache",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  846
+    },
+    {
+        "id":  "A-20261001-1012",
+        "date":  "2026-10-01",
+        "time":  "10:12",
+        "title":  "Piolink 제품 보안 업데이트 권고",
+        "product":  "Piolink",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  854
+    },
+    {
+        "id":  "A-20261001-2244",
+        "date":  "2026-10-01",
+        "time":  "22:44",
+        "title":  "Cisco 제품 보안 업데이트 권고",
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  862
+    },
+    {
+        "id":  "A-20261002-1433",
+        "date":  "2026-10-02",
+        "time":  "14:33",
+        "title":  "오픈소스 기반 웹 방화벽(WAF) 취약점 보안 조치 권고",
+        "product":  "오픈소스 WAF",
+        "category":  "네트워크·보안장비",
+        "kind":  "주의",
+        "source_line":  871
+    },
+    {
+        "id":  "A-20261006-1835",
+        "date":  "2026-10-06",
+        "time":  "18:35",
+        "title":  "Apache 제품 보안 업데이트 권고",
+        "product":  "Apache",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  880
+    },
+    {
+        "id":  "A-20261012-1743",
+        "date":  "2026-10-12",
+        "time":  "17:43",
+        "title":  "Citrix 제품 보안 업데이트 권고",
+        "product":  "Citrix·NetScaler",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  889
+    },
+    {
+        "id":  "A-20261013-1753",
+        "date":  "2026-10-13",
+        "time":  "17:53",
+        "title":  "SonicWall 제품 보안 업데이트 권고",
+        "product":  "SonicWall",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  898
+    },
+    {
+        "id":  "A-20261014-1812",
+        "date":  "2026-10-14",
+        "time":  "18:12",
+        "title":  "GitLab 제품 보안 업데이트 권고",
+        "product":  "GitLab",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  907
+    },
+    {
+        "id":  "A-20261014-2007",
+        "date":  "2026-10-14",
+        "time":  "20:07",
+        "title":  "Ivanti 제품 보안 업데이트 권고",
+        "product":  "Ivanti",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  915
+    },
+    {
+        "id":  "A-20261016-1742",
+        "date":  "2026-10-16",
+        "time":  "17:42",
+        "title":  "Palo Alto Networks 제품 보안 업데이트 권고",
+        "product":  "Palo Alto Networks",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  924
+    },
+    {
+        "id":  "A-20261020-1033",
+        "date":  "2026-10-20",
+        "time":  "10:33",
+        "title":  "최근 API를 통한 정보유출 사고 관련 API 보안점검 권고",
+        "product":  "API 보안점검",
+        "category":  "위협 동향·점검",
+        "kind":  "안내",
+        "source_line":  933
+    },
+    {
+        "id":  "A-20261020-1735",
+        "date":  "2026-10-20",
+        "time":  "17:35",
+        "title":  "사이버이메지네이션 제품 보안 업데이트 권고",
+        "product":  "사이버이메지네이션",
+        "category":  "PC·업무용 SW",
+        "kind":  "패치",
+        "source_line":  941
+    },
+    {
+        "id":  "A-20261022-0948",
+        "date":  "2026-10-22",
+        "time":  "09:48",
+        "title":  "PHP 원격 코드 실행 취약점 관련 보안조치 권고",
+        "product":  "PHP",
+        "category":  "웹·서버·DB",
+        "kind":  "주의",
+        "source_line":  950
+    },
+    {
+        "id":  "A-20261022-1056",
+        "date":  "2026-10-22",
+        "time":  "10:56",
+        "title":  "PHP 제품 보안 업데이트 권고",
+        "product":  "PHP",
+        "category":  "웹·서버·DB",
+        "kind":  "패치",
+        "source_line":  958
+    },
+    {
+        "id":  "A-20261022-1753",
+        "date":  "2026-10-22",
+        "time":  "17:53",
+        "title":  "PHP 보안취약점(PHP2Shell) 관련 기업 보안 대응 수칙",
+        "product":  "PHP",
+        "category":  "웹·서버·DB",
+        "kind":  "안내",
+        "source_line":  966
+    },
+    {
+        "id":  "A-20261022-1951",
+        "date":  "2026-10-22",
+        "time":  "19:51",
+        "title":  "GitLab 제품 보안 업데이트 권고",
+        "product":  "GitLab",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  974
+    },
+    {
+        "id":  "A-20261022-2013",
+        "date":  "2026-10-22",
+        "time":  "20:13",
+        "title":  "Fortinet 제품 보안 업데이트 권고",
+        "product":  "Fortinet",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  982
+    },
+    {
+        "id":  "A-20261023-0943",
+        "date":  "2026-10-23",
+        "time":  "09:43",
+        "title":  "Fortinet 제품 보안 업데이트 권고",
+        "product":  "Fortinet",
+        "category":  "네트워크·보안장비",
+        "kind":  "패치",
+        "source_line":  991
+    },
+    {
+        "id":  "A-20261023-1127",
+        "date":  "2026-10-23",
+        "time":  "11:27",
+        "title":  "GitLab 제품 보안 업데이트 권고",
+        "product":  "GitLab",
+        "category":  "개발·운영 도구",
+        "kind":  "패치",
+        "source_line":  999
+    }
+]

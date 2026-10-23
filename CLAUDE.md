@@ -31,6 +31,14 @@
 - 쪽 사이 링크는 상대 경로 Markdown 링크(`[Fortinet](products/fortinet.md)`)로 달아요. GitHub와 옵시디언에서 모두 이어져요.
 - 한 제품의 권고가 3건이 되면 `products/<제품>.md`를 만들고, `products.md`와 `timeline.md`의 그 제품 이름을 링크로 바꿔요.
 
+## 지식 그래프 사이트
+
+`site/`는 위키를 그래프와 온톨로지 그림으로 보여 주는 정적 사이트예요. Vercel이 `main`에 push될 때마다 빌드 없이 `site/`를 그대로 내보내요(`vercel.json`).
+
+- `site/data/advisories.json`, `products.json`, `follows.json`과 `ontology_concepts.json`의 개수는 `tools/build-site-data.ps1`이 위키(`timeline.md`, `ontology.md` 이어짐 표, `log.md`, 쪽 수)에서 만들어요. 손으로 고치지 않아요.
+- `site/data/ontology_concepts.json`의 뜻·식별자와 `ontology_relations.json`은 손으로 써요. 온톨로지의 개념이나 관계를 바꾸면 이 두 파일도 같이 고쳐요.
+- 로컬에서 보려면 `site/`를 아무 정적 서버로 열어요(파일을 바로 열면 데이터를 못 읽어요).
+
 ## 넣기
 
 새 카톡 내보내기, 홈페이지 원문, 메일 같은 자료가 들어오면:
@@ -40,7 +48,8 @@
 3. 알림마다 권고 ID를 매기고, 온톨로지 3~5절로 제품, 분야, 종류를 정해요. 앞 권고의 후속으로 보이면 온톨로지 2절 "이어짐" 표에도 더해요.
 4. 관련 쪽을 모두 고쳐요: `timeline.md`, `products.md`, 제품 쪽(속성 `advisories`, `last` 포함), 주의·안내형이면 `notices.md`, 건수와 기간이 바뀌면 `README.md`.
 5. 원문에서 알게 된 영향 버전, CVE, 조치 방법은 온톨로지 7절 모양으로 제품 쪽 "원문에서 확인한 것"에 적어요. 제품 쪽이 없는 제품이면 `notices.md` 4절에 적어요.
-6. `log.md`에 "넣기" 한 줄을 적어요.
+6. 지식 그래프 사이트의 데이터를 다시 만들어요: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\build-site-data.ps1`. 오류 없이 끝나야 해요.
+7. `log.md`에 "넣기" 한 줄을 적어요.
 
 ## 묻기
 

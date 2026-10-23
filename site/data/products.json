@@ -1,0 +1,530 @@
+[
+    {
+        "product":  "NGINX",
+        "category":  "웹·서버·DB",
+        "advisories":  3,
+        "first":  "2026-05-15",
+        "last":  "2026-07-20",
+        "has_page":  true
+    },
+    {
+        "product":  "Linux Kernel",
+        "category":  "OS·가상화",
+        "advisories":  7,
+        "first":  "2026-05-19",
+        "last":  "2026-09-11",
+        "has_page":  true
+    },
+    {
+        "product":  "Cisco",
+        "category":  "네트워크·보안장비",
+        "advisories":  7,
+        "first":  "2026-05-20",
+        "last":  "2026-10-01",
+        "has_page":  true
+    },
+    {
+        "product":  "지미션 WEB FAX",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-05-21",
+        "last":  "2026-05-21",
+        "has_page":  false
+    },
+    {
+        "product":  "VMware",
+        "category":  "OS·가상화",
+        "advisories":  1,
+        "first":  "2026-05-22",
+        "last":  "2026-05-22",
+        "has_page":  false
+    },
+    {
+        "product":  "NVIDIA",
+        "category":  "AI·데이터",
+        "advisories":  2,
+        "first":  "2026-05-22",
+        "last":  "2026-05-26",
+        "has_page":  false
+    },
+    {
+        "product":  "Ivanti",
+        "category":  "네트워크·보안장비",
+        "advisories":  3,
+        "first":  "2026-05-22",
+        "last":  "2026-10-14",
+        "has_page":  true
+    },
+    {
+        "product":  "프로젝트 글래스윙",
+        "category":  "위협 동향·점검",
+        "advisories":  1,
+        "first":  "2026-05-25",
+        "last":  "2026-05-25",
+        "has_page":  false
+    },
+    {
+        "product":  "Trend Micro",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-05-27",
+        "last":  "2026-05-27",
+        "has_page":  false
+    },
+    {
+        "product":  "7-Zip",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-05-28",
+        "last":  "2026-05-28",
+        "has_page":  false
+    },
+    {
+        "product":  "Portainer",
+        "category":  "개발·운영 도구",
+        "advisories":  1,
+        "first":  "2026-05-29",
+        "last":  "2026-05-29",
+        "has_page":  false
+    },
+    {
+        "product":  "Notepad++",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-06-01",
+        "last":  "2026-06-01",
+        "has_page":  false
+    },
+    {
+        "product":  "Palo Alto Networks",
+        "category":  "네트워크·보안장비",
+        "advisories":  2,
+        "first":  "2026-06-01",
+        "last":  "2026-10-16",
+        "has_page":  false
+    },
+    {
+        "product":  "WordPress",
+        "category":  "웹·서버·DB",
+        "advisories":  4,
+        "first":  "2026-06-04",
+        "last":  "2026-09-24",
+        "has_page":  true
+    },
+    {
+        "product":  "Android",
+        "category":  "OS·가상화",
+        "advisories":  1,
+        "first":  "2026-06-05",
+        "last":  "2026-06-05",
+        "has_page":  false
+    },
+    {
+        "product":  "HP",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-06-05",
+        "last":  "2026-06-05",
+        "has_page":  false
+    },
+    {
+        "product":  "GitLab",
+        "category":  "개발·운영 도구",
+        "advisories":  4,
+        "first":  "2026-06-05",
+        "last":  "2026-10-23",
+        "has_page":  true
+    },
+    {
+        "product":  "IBM",
+        "category":  "웹·서버·DB",
+        "advisories":  2,
+        "first":  "2026-06-05",
+        "last":  "2026-07-02",
+        "has_page":  false
+    },
+    {
+        "product":  "Secuve TOS",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-06-08",
+        "last":  "2026-06-08",
+        "has_page":  false
+    },
+    {
+        "product":  "SolarWinds",
+        "category":  "개발·운영 도구",
+        "advisories":  1,
+        "first":  "2026-06-08",
+        "last":  "2026-06-08",
+        "has_page":  false
+    },
+    {
+        "product":  "Check Point",
+        "category":  "네트워크·보안장비",
+        "advisories":  2,
+        "first":  "2026-06-09",
+        "last":  "2026-09-24",
+        "has_page":  false
+    },
+    {
+        "product":  "Veeam",
+        "category":  "개발·운영 도구",
+        "advisories":  1,
+        "first":  "2026-06-10",
+        "last":  "2026-06-10",
+        "has_page":  false
+    },
+    {
+        "product":  "Microsoft 정기 업데이트",
+        "category":  "OS·가상화",
+        "advisories":  5,
+        "first":  "2026-06-11",
+        "last":  "2026-09-09",
+        "has_page":  true
+    },
+    {
+        "product":  "위성통신망",
+        "category":  "위협 동향·점검",
+        "advisories":  1,
+        "first":  "2026-06-12",
+        "last":  "2026-06-12",
+        "has_page":  false
+    },
+    {
+        "product":  "한컴위드 AnySign4PC",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-06-17",
+        "last":  "2026-06-17",
+        "has_page":  false
+    },
+    {
+        "product":  "비즈웰 xClick",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-06-17",
+        "last":  "2026-06-17",
+        "has_page":  false
+    },
+    {
+        "product":  "Spring",
+        "category":  "웹·서버·DB",
+        "advisories":  3,
+        "first":  "2026-06-17",
+        "last":  "2026-06-26",
+        "has_page":  true
+    },
+    {
+        "product":  "OpenSSL",
+        "category":  "웹·서버·DB",
+        "advisories":  1,
+        "first":  "2026-06-17",
+        "last":  "2026-06-17",
+        "has_page":  false
+    },
+    {
+        "product":  "HTTP/2 웹서버",
+        "category":  "웹·서버·DB",
+        "advisories":  1,
+        "first":  "2026-06-18",
+        "last":  "2026-06-18",
+        "has_page":  false
+    },
+    {
+        "product":  "Fortinet",
+        "category":  "네트워크·보안장비",
+        "advisories":  5,
+        "first":  "2026-06-19",
+        "last":  "2026-10-23",
+        "has_page":  true
+    },
+    {
+        "product":  "D-Link",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-06-23",
+        "last":  "2026-06-23",
+        "has_page":  false
+    },
+    {
+        "product":  "FFmpeg",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-06-23",
+        "last":  "2026-06-23",
+        "has_page":  false
+    },
+    {
+        "product":  "CISA Exploit 정보",
+        "category":  "위협 동향·점검",
+        "advisories":  2,
+        "first":  "2026-06-26",
+        "last":  "2026-06-30",
+        "has_page":  false
+    },
+    {
+        "product":  "F5",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-06-26",
+        "last":  "2026-06-26",
+        "has_page":  false
+    },
+    {
+        "product":  "curl",
+        "category":  "웹·서버·DB",
+        "advisories":  1,
+        "first":  "2026-06-29",
+        "last":  "2026-06-29",
+        "has_page":  false
+    },
+    {
+        "product":  "OzWebLauncher",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-07-01",
+        "last":  "2026-07-01",
+        "has_page":  false
+    },
+    {
+        "product":  "Citrix·NetScaler",
+        "category":  "네트워크·보안장비",
+        "advisories":  5,
+        "first":  "2026-07-03",
+        "last":  "2026-10-12",
+        "has_page":  true
+    },
+    {
+        "product":  "HiveOn",
+        "category":  "PC·업무용 SW",
+        "advisories":  2,
+        "first":  "2026-07-03",
+        "last":  "2026-07-10",
+        "has_page":  false
+    },
+    {
+        "product":  "SoftManager",
+        "category":  "PC·업무용 SW",
+        "advisories":  2,
+        "first":  "2026-07-03",
+        "last":  "2026-07-10",
+        "has_page":  false
+    },
+    {
+        "product":  "Linux KVM",
+        "category":  "OS·가상화",
+        "advisories":  1,
+        "first":  "2026-07-09",
+        "last":  "2026-07-09",
+        "has_page":  false
+    },
+    {
+        "product":  "사이버 위기 대응",
+        "category":  "위협 동향·점검",
+        "advisories":  1,
+        "first":  "2026-07-14",
+        "last":  "2026-07-14",
+        "has_page":  false
+    },
+    {
+        "product":  "Zoom",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-07-20",
+        "last":  "2026-07-20",
+        "has_page":  false
+    },
+    {
+        "product":  "나모 크로스에디터",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-07-27",
+        "last":  "2026-07-27",
+        "has_page":  false
+    },
+    {
+        "product":  "스팸차단솔루션",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-07-30",
+        "last":  "2026-07-30",
+        "has_page":  false
+    },
+    {
+        "product":  "Adobe",
+        "category":  "PC·업무용 SW",
+        "advisories":  3,
+        "first":  "2026-08-03",
+        "last":  "2026-09-29",
+        "has_page":  true
+    },
+    {
+        "product":  "Rails",
+        "category":  "웹·서버·DB",
+        "advisories":  1,
+        "first":  "2026-08-04",
+        "last":  "2026-08-04",
+        "has_page":  false
+    },
+    {
+        "product":  "picklescan",
+        "category":  "AI·데이터",
+        "advisories":  1,
+        "first":  "2026-08-06",
+        "last":  "2026-08-06",
+        "has_page":  false
+    },
+    {
+        "product":  "Apache",
+        "category":  "웹·서버·DB",
+        "advisories":  3,
+        "first":  "2026-08-07",
+        "last":  "2026-10-06",
+        "has_page":  true
+    },
+    {
+        "product":  "Langflow",
+        "category":  "AI·데이터",
+        "advisories":  1,
+        "first":  "2026-08-07",
+        "last":  "2026-08-07",
+        "has_page":  false
+    },
+    {
+        "product":  "JetBrains",
+        "category":  "개발·운영 도구",
+        "advisories":  1,
+        "first":  "2026-08-10",
+        "last":  "2026-08-10",
+        "has_page":  false
+    },
+    {
+        "product":  "소만사 Privacy-i 등",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-08-10",
+        "last":  "2026-08-10",
+        "has_page":  false
+    },
+    {
+        "product":  "Metabase",
+        "category":  "AI·데이터",
+        "advisories":  2,
+        "first":  "2026-08-11",
+        "last":  "2026-09-03",
+        "has_page":  false
+    },
+    {
+        "product":  "일부 SW 제품",
+        "category":  "위협 동향·점검",
+        "advisories":  1,
+        "first":  "2026-08-19",
+        "last":  "2026-08-19",
+        "has_page":  false
+    },
+    {
+        "product":  "AI 인프라 SW",
+        "category":  "AI·데이터",
+        "advisories":  1,
+        "first":  "2026-08-20",
+        "last":  "2026-08-20",
+        "has_page":  false
+    },
+    {
+        "product":  "PostgreSQL",
+        "category":  "웹·서버·DB",
+        "advisories":  2,
+        "first":  "2026-08-20",
+        "last":  "2026-09-11",
+        "has_page":  false
+    },
+    {
+        "product":  "지니언스 Genian NAC",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-08-21",
+        "last":  "2026-08-21",
+        "has_page":  false
+    },
+    {
+        "product":  "MLflow",
+        "category":  "AI·데이터",
+        "advisories":  1,
+        "first":  "2026-08-21",
+        "last":  "2026-08-21",
+        "has_page":  false
+    },
+    {
+        "product":  "Oracle WebLogic",
+        "category":  "웹·서버·DB",
+        "advisories":  1,
+        "first":  "2026-08-26",
+        "last":  "2026-08-26",
+        "has_page":  false
+    },
+    {
+        "product":  "Gitea",
+        "category":  "개발·운영 도구",
+        "advisories":  1,
+        "first":  "2026-08-27",
+        "last":  "2026-08-27",
+        "has_page":  false
+    },
+    {
+        "product":  "브레인즈컴퍼니 Zenius EMS",
+        "category":  "개발·운영 도구",
+        "advisories":  1,
+        "first":  "2026-09-16",
+        "last":  "2026-09-16",
+        "has_page":  false
+    },
+    {
+        "product":  "Piolink",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-10-01",
+        "last":  "2026-10-01",
+        "has_page":  false
+    },
+    {
+        "product":  "오픈소스 WAF",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-10-02",
+        "last":  "2026-10-02",
+        "has_page":  false
+    },
+    {
+        "product":  "SonicWall",
+        "category":  "네트워크·보안장비",
+        "advisories":  1,
+        "first":  "2026-10-13",
+        "last":  "2026-10-13",
+        "has_page":  false
+    },
+    {
+        "product":  "API 보안점검",
+        "category":  "위협 동향·점검",
+        "advisories":  1,
+        "first":  "2026-10-20",
+        "last":  "2026-10-20",
+        "has_page":  false
+    },
+    {
+        "product":  "사이버이메지네이션",
+        "category":  "PC·업무용 SW",
+        "advisories":  1,
+        "first":  "2026-10-20",
+        "last":  "2026-10-20",
+        "has_page":  false
+    },
+    {
+        "product":  "PHP",
+        "category":  "웹·서버·DB",
+        "advisories":  3,
+        "first":  "2026-10-22",
+        "last":  "2026-10-22",
+        "has_page":  true
+    }
+]
