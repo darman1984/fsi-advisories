@@ -2,6 +2,8 @@
 
 금융보안원 금융보안레그테크 카카오톡 채널로 받은 "사이버 위협정보 보안권고문" 알림을 팀이 같이 찾아볼 수 있게 정리한 문서예요. 2026-05-15부터 2026-10-23 오전까지 받은 알림 117건이 들어 있어요.
 
+이 위키는 LLM 위키 방식으로 관리해요. 원본(`raw/`)은 그대로 두고, Claude가 [CLAUDE.md](../../CLAUDE.md)의 규칙대로 새 자료를 넣고(넣기), 질문에 답하고(묻기), 어긋난 곳을 찾아요(점검). 한 일은 [log.md](log.md)에 한 줄씩 쌓여요.
+
 ## 먼저 알아 둘 것
 
 - **알림에는 제목만 있어요.** 카톡 알림은 "OOO 보안 업데이트 권고가 게시되었습니다"라는 한 줄과 안내 문구뿐이에요. 영향받는 버전, CVE, 조치 방법은 홈페이지 원문에서 확인해야 해요.
@@ -15,6 +17,7 @@
 | --- | --- | --- |
 | [products.md](products.md) — 제품별 권고 | 제품 66개를 분야 7개로 나눠 건수, 날짜, 출처 줄을 적었어요. 자주 나온 제품 표가 맨 위에 있어요 | "우리가 쓰는 OOO에 권고가 있었나요?"에 답할 때 |
 | [timeline.md](timeline.md) — 날짜순 전체 목록 | 117건을 월별로, 최근 것부터 원문 제목 그대로 | "지난주에 무슨 권고가 왔어요?", 놓친 알림을 찾을 때 |
+| products/ — 제품 쪽 13개 | 권고가 3건 이상인 제품마다 한 쪽: [Cisco](products/cisco.md), [Linux Kernel](products/linux-kernel.md), [Citrix·NetScaler](products/citrix-netscaler.md), [Fortinet](products/fortinet.md), [Microsoft 정기 업데이트](products/microsoft-patch.md), [GitLab](products/gitlab.md), [WordPress](products/wordpress.md), [Adobe](products/adobe.md), [Apache](products/apache.md), [Ivanti](products/ivanti.md), [NGINX](products/nginx.md), [PHP](products/php.md), [Spring](products/spring.md) | 한 제품의 권고를 모아 보고, 원문에서 확인한 버전·조치를 적을 때 |
 | [notices.md](notices.md) — 주의·안내 권고와 흐름 | 패치가 아닌 주의 11건과 안내 6건, 반복·몰림 같은 흐름, 알림만으로는 알 수 없는 것 | 패치 말고 따로 조치할 것이 있는지 볼 때 |
 | [log.md](log.md) — 바뀐 기록 | kb를 만들고 고친 날과 무엇을 바꿨는지 | kb가 언제까지의 알림을 담고 있는지 볼 때 |
 
@@ -50,7 +53,10 @@
 
 ## 새 알림 넣기
 
-1. 카톡에서 대화를 다시 내보내 `raw/kakaotalk-<저장한 날>.txt`로 넣어요. 옛 파일은 지우지 않아요.
-2. 이번 kb의 마지막 알림(2026-10-23 11:27 GitLab) 뒤에 온 것만 [timeline.md](timeline.md), [products.md](products.md)에 더하고, 주의·안내형이면 [notices.md](notices.md)에도 더해요. 출처 줄은 새 파일 기준으로 `raw/kakaotalk-<저장한 날>.txt:줄`처럼 파일 이름까지 적어요.
-3. 원문을 읽고 알게 된 것(버전, CVE, 조치)은 해당 제품 줄이나 notices.md 4절에 원문 제목과 함께 적어요.
-4. [log.md](log.md)에 "넣기"로 한 줄 적어요.
+카톡에서 대화를 다시 내보내 `raw/kakaotalk-<저장한 날>.txt`로 넣고, Claude Code에 이렇게 부탁해요.
+
+```text
+raw/kakaotalk-<저장한 날>.txt를 위키에 넣어 줘. CLAUDE.md의 넣기 절차대로 관련 쪽을 모두 고치고 log.md에 "넣기"로 한 줄 적어 줘. 원본은 고치지 마.
+```
+
+홈페이지 원문을 읽었으면 내용을 붙여서 "이 원문을 위키에 넣어 줘"라고 해요. 영향 버전, CVE, 조치 방법이 제품 쪽의 "원문에서 확인한 것"에 들어가요. 절차는 [CLAUDE.md](../../CLAUDE.md)의 "넣기"에 있어요.
